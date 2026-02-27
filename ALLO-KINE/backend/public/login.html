@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Docteur | ALLO KINÉ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f4f4f4; }
+        .login-box { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; }
+        .vip-input { display: block; width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .login-btn { background: #d4af37; color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .login-btn:hover { background: #b5952f; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <img src="logo.png" alt="Logo" style="width: 80px; border-radius: 50%;">
+        <h2>Espace Docteur</h2>
+        
+        <form id="login-form">
+            <input type="email" id="email" class="vip-input" placeholder="omar_oumay@hotmail.com" required>
+            <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required>
+            
+            <button type="submit" class="login-btn">
+                Se connecter
+            </button>
+        </form>
+
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px; text-align: center;">Identifiants incorrects</p>
+    </div> <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Empêche la page de recharger dans le vide
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Dans login.html et register.html
+                const url = isRegister ? '/api/auth/register' : '/api/auth/login';
+                const response = await fetch('https://ton-projet-backend.onrender.com' + url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token); // Sauvegarde la clé
+                    window.location.href = 'admin.html'; // Redirection magique
+                } else {
+                    document.getElementById('error-msg').style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Erreur:", error);
+                alert("Erreur de connexion au serveur backend. Vérifiez que le serveur est allumé et que le port 5000 est public.");
+            }
+        });
+    </script>
+</body>
+</html>

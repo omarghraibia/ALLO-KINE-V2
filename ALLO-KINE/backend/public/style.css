@@ -1,0 +1,165 @@
+/* --- VARIABLES DE LUXE --- */
+:root {
+    --bg-color: #FAFAFA;
+    --text-color: #2C3E50;
+    --nav-bg: #0A192F; 
+    --nav-text: #FFFFFF;
+    --gold-accent: #C5A059; 
+    --gold-hover: #A68541;
+    --card-bg: #FFFFFF;
+    --border-color: #EAEAEA;
+    --shadow-premium: 0 15px 35px rgba(0,0,0,0.05);
+    --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme="dark"] {
+    --bg-color: #050A15; 
+    --text-color: #E0E6ED; 
+    --nav-bg: #02050A; 
+    --card-bg: #0B1325;
+    --border-color: #1A2639;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; overflow-x: hidden; transition: background-color 0.5s; }
+h1, h2, h3 { font-family: 'Georgia', serif; font-weight: normal; color: var(--nav-bg); }
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 { color: var(--gold-accent); }
+
+/* Navigation */
+header { background-color: var(--nav-bg); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.logo-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+.brand-name { font-size: 1.6rem; font-family: 'Georgia', serif; color: var(--nav-text); letter-spacing: 2px; }
+
+.menu-toggle { display: none; color: var(--gold-accent); font-size: 2rem; cursor: pointer; }
+nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
+nav a { color: var(--nav-text); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: var(--transition); }
+nav a:hover { color: var(--gold-accent); }
+
+.theme-btn { background: transparent; border: 1px solid var(--gold-accent); color: var(--nav-text); width: 40px; height: 40px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+/* Hero Section */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 5% 50px 5%; }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 0.5rem; }
+.hero-subtitle { font-size: 1.3rem; color: var(--gold-accent); font-weight: bold; margin-bottom: 2.5rem; letter-spacing: 2px; text-transform: uppercase; }
+
+.hero-list { list-style: none; margin: 0 auto 3rem auto; text-align: left; background: var(--card-bg); padding: 3rem; border-radius: 15px; box-shadow: var(--shadow-premium); border-left: 5px solid var(--gold-accent); max-width: 850px; width: 100%; }
+.hero-list li { font-size: 1.1rem; margin-bottom: 1.2rem; display: flex; align-items: flex-start; gap: 15px; opacity: 0; animation: slideIn 0.6s forwards; }
+.hero-list li::before { content: '✦'; color: var(--gold-accent); font-size: 1.4rem; }
+
+/* Grille de Soins */
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; width: 100%; }
+.service-card { background: var(--card-bg); padding: 3rem; border-radius: 12px; box-shadow: var(--shadow-premium); border-top: 4px solid var(--gold-accent); height: 100%; display: flex; flex-direction: column; transition: var(--transition); }
+.service-card:hover { transform: translateY(-10px); }
+.service-card h3 { color: var(--gold-accent); margin-bottom: 1.5rem; font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+
+/* Formulaire Médical */
+.vip-input { width: 100%; padding: 1rem; margin-bottom: 1.5rem; border: none; border-bottom: 1px solid var(--border-color); background: transparent; font-size: 1rem; color: var(--text-color); outline: none; transition: 0.3s; }
+.vip-input:focus { border-bottom-color: var(--gold-accent); }
+
+/* Animations */
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* Section Tarifs */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+.pricing-card { background: var(--bg-color); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 15px; text-align: center; position: relative; transition: var(--transition); box-shadow: var(--shadow-light); }
+.pricing-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-premium); border-color: var(--gold-accent); }
+.premium-card { border: 2px solid var(--gold-accent); transform: scale(1.05); }
+.premium-card:hover { transform: scale(1.05) translateY(-10px); }
+.badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+.price { font-size: 3rem; font-weight: bold; color: var(--gold-accent); margin: 1rem 0; font-family: 'Georgia', serif; }
+.currency { font-size: 1.2rem; color: var(--text-color); }
+.pay-btn { display: inline-block; padding: 1rem 2rem; width: 100%; border-radius: 8px; text-decoration: none; background: var(--gold-accent); color: white; font-weight: bold; transition: 0.3s; }
+.pay-btn:hover { background: var(--gold-hover); }
+
+/* --- Style pour les photos professionnelles --- */
+.pro-photo {
+    max-width: 450px; 
+    width: 100%; 
+    height: auto;
+    border-radius: 15px;
+    box-shadow: var(--shadow-premium);
+    display: block;
+    margin: 0 auto; 
+    object-fit: cover;
+    border: 3px solid var(--gold-accent); 
+}
+
+/* --- Bouton WhatsApp Flottant --- */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+    z-index: 1000; 
+    transition: transform 0.3s ease;
+    animation: pulse-whatsapp 2s infinite;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    color: white;
+}
+
+@keyframes pulse-whatsapp {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* --- ADAPTATION MOBILE (Toutes les règles pour téléphone groupées ici) --- */
+@media (max-width: 768px) {
+    /* Menu Navigation Mobile */
+    .menu-toggle { 
+        display: block; 
+        z-index: 2000; 
+        position: relative;
+    }
+    nav ul { 
+        position: fixed; 
+        top: 0; 
+        right: -100%; 
+        width: 100%; 
+        height: 100vh; 
+        background: var(--nav-bg); 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center;
+        transition: 0.4s ease-in-out; 
+        z-index: 1999; 
+    }
+    nav ul.active { right: 0; }
+    nav ul li { margin: 15px 0; }
+    nav ul a { font-size: 1.3rem; }
+
+    /* Ajustements Textes et Grilles */
+    .hero h1 { font-size: 2.2rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .hero-list { padding: 1.5rem; }
+    
+    .services-grid, .pricing-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1.5rem;
+    }
+
+    /* Redimensionner WhatsApp */
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .whatsapp-float svg {
+        width: 28px;
+        height: 28px;
+    }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Réservation | ALLO KINÉ</title>
+    
+    <meta name="description" content="Contactez le cabinet de kinésithérapie ALLO KINÉ à La Marsa (Tunis). Prenez rendez-vous pour une consultation au cabinet, à domicile ou en visio.">
+    <meta name="keywords" content="contact kiné La Marsa, rendez-vous kinésithérapie Tunis, kiné à domicile Tunisie, urgence kiné, ALLO KINÉ contact">
+    <meta property="og:title" content="ALLO KINÉ | Contact & Réservation">
+    <meta property="og:description" content="Prenez rendez-vous avec l'élite de la rééducation sportive et fonctionnelle à Tunis.">
+    <meta property="og:url" content="https://allokine.netlify.app/contact.html">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Dr Fethi Ghraybia
+                </div>
+            </div>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+         <div class="menu-toggle" id="mobile-menu">☰</div>
+       <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="competences.html">Nos Soins & Tarifs</a></li>
+                <li><a href="experiences.html">Expertise</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                
+                <li id="nav-login"><a href="login.html" style="color: var(--gold-accent);">Se connecter</a></li>
+                <li id="nav-register"><a href="register.html" style="background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px;">S'inscrire</a></li>
+                
+                <li id="nav-dashboard" style="display: none;"><a href="#" id="dashboard-link" style="color: var(--gold-accent); font-weight: bold;">Mon Espace</a></li>
+                <li id="nav-logout" style="display: none;"><a href="#" id="logout-btn-nav" style="color: #ff4757;">Déconnexion</a></li>
+                
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+    </header>
+
+    <main style="margin-top: 120px; padding: 0 5%; min-height: 80vh;">
+        <section class="reveal active" style="width: 100%; max-width: 900px; margin: 0 auto;">
+            <h1 class="section-title" style="text-align: center; margin-bottom: 1.5rem; font-family: 'Georgia', serif; color: var(--gold-accent);">Dossier de Pré-Consultation & Demande</h1>
+            
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <p style="margin-bottom: 1rem; opacity: 0.9;">Pour une urgence ou une question rapide, contactez-nous directement :</p>
+                <a href="https://wa.me/21698561586" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 1rem 2rem; background: #25D366; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: transform 0.3s;">
+                    <span style="font-size: 1.2rem;">💬</span> WhatsApp : +216 98 56 15 86
+                </a>
+            </div>
+            
+            <div style="background: var(--card-bg); padding: clamp(1.5rem, 5vw, 3rem); border-radius: 15px; box-shadow: var(--shadow-premium); width: 100%;">
+                
+                <form id="contact-form">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <input type="text" id="nom" class="vip-input" placeholder="Nom *" required>
+                        <input type="text" id="prenom" class="vip-input" placeholder="Prénom *" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <input type="tel" id="telephone" class="vip-input" placeholder="Téléphone *" required>
+                        <select id="motif" class="vip-input" required style="background: transparent; color: inherit;">
+                            <option value="" disabled selected>Motif de la demande *</option>
+                            <option value="Consultation Cabinet">Consultation au Cabinet (La Marsa)</option>
+                            <option value="Soins Domicile">Soins à Domicile</option>
+                            <option value="Bilan Visio">Réserver un Bilan Visio (50 TND)</option>
+                            <option value="Achat Programme">Acheter un Programme en ligne</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <input type="text" id="diagnostic" class="vip-input" placeholder="Diagnostic ou description de la douleur *" required>
+                        <input type="number" id="seances" class="vip-input" placeholder="Nombre de séances voulu" min="1">
+                    </div>
+                    
+                    <textarea id="message" class="vip-input" rows="4" placeholder="Précisez vos besoins ou vos disponibilités horaires..." style="width: 100%; margin-top: 1rem;"></textarea>
+                    
+                    <button type="submit" style="width: 100%; background: var(--gold-accent); color: white; border: none; padding: 1.2rem; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; margin-top: 1.5rem;">Envoyer ma demande</button>
+                </form>
+            </div>
+
+            <div style="margin-top: 5rem; margin-bottom: 3rem;">
+                <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Georgia', serif;">Notre Localisation</h2>
+                <div style="border-radius: 15px; overflow: hidden; border: 2px solid var(--gold-accent); box-shadow: var(--shadow-light);">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.170617374778!2d10.3235!3d36.88!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDUyJzQ4LjAiTiAxMMKwMTknMjQuNiJF!5e0!3m2!1sfr!2stn!4v1611234567890!5m2!1sfr!2stn" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: var(--nav-bg); color: white; text-align: center; padding: 4rem 5%;">
+        <h3 style="color: var(--gold-accent); letter-spacing: 2px;">ALLO KINÉ</h3>
+        <p style="opacity: 0.7; margin: 1.5rem 0;">📍 Rue Errazi, La Marsa (VIP Body Center)<br>Tunis, Tunisie</p>
+        <p style="font-size: 0.8rem; opacity: 0.5;">© 2026 Tous droits réservés. Excellence & Santé.</p>
+    </footer>
+
+    <a href="https://wa.me/21698561586" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactez-nous sur WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <script src="script.js"></script>
+
+    <script>
+        // SCRIPT DE LA NAVBAR INTELLIGENTE
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+
+            if (token) {
+                document.getElementById('nav-login').style.display = 'none';
+                document.getElementById('nav-register').style.display = 'none';
+                document.getElementById('nav-dashboard').style.display = 'inline-block';
+                document.getElementById('nav-logout').style.display = 'inline-block';
+                
+                const dashboardLink = document.getElementById('dashboard-link');
+                dashboardLink.href = role === 'admin' ? 'admin.html' : 'espace-patient.html';
+                
+                document.getElementById('logout-btn-nav').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+
+        // SCRIPT D'ENVOI DU FORMULAIRE SECURISE
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                nom: document.getElementById('nom').value,
+                prenom: document.getElementById('prenom').value,
+                telephone: document.getElementById('telephone').value,
+                motif: document.getElementById('motif').value,
+                diagnostic: document.getElementById('diagnostic').value
+            };
+
+            try {
+                // On récupère le token si le patient est connecté
+                const token = localStorage.getItem('token');
+
+                const response = await fetch('http://localhost:5000/api/appointments', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        // On envoie la clé d'identité au serveur
+                        'x-auth-token': token ? token : '' 
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert("Rendez-vous enregistré avec succès !");
+                    document.getElementById('contact-form').reset(); // Vide le formulaire
+                } else {
+                    alert("Erreur lors de l'enregistrement de votre rendez-vous.");
+                }
+            } catch (error) {
+                console.error("Erreur de connexion au serveur", error);
+                alert("Impossible de joindre le serveur. Assurez-vous qu'il est en ligne.");
+            }
+        });
+    </script>
+</body>
+</html>
