@@ -40,6 +40,7 @@ app.get(/^(?!\/api).+/, (req, res) => {
 // --- ⚙️ LANCEMENT DU SERVEUR ---
 // Railway et Render utilisent la variable d'environnement PORT
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Serveur ALLO KINÉ actif sur le port ${PORT}`);
+ 
 });
