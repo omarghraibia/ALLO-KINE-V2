@@ -27,8 +27,9 @@
             </div>
         </a>
         
-        <div class="menu-toggle" id="mobile-menu">☰</div
-       <nav>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        
+        <nav>
             <ul id="nav-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="competences.html">Nos Soins & Tarifs</a></li>
@@ -45,8 +46,6 @@
             </ul>
         </nav>
     </header>
-    </header>
-
     <main style="margin-top: 120px; padding: 0 5%; min-height: 80vh;">
         <section class="reveal active" style="width: 100%; max-width: 900px; margin: 0 auto;">
             <h1 class="section-title" style="text-align: center; margin-bottom: 1.5rem; font-family: 'Georgia', serif; color: var(--gold-accent);">Dossier de Pré-Consultation & Demande</h1>
@@ -150,7 +149,8 @@
                 // On récupère le token si le patient est connecté
                 const token = localStorage.getItem('token');
 
-                const response = await fetch('http://localhost:5000/api/appointments', {
+                // CORRECTION 3 : URL Relative pour que ça marche sur mobile et sur PC !
+                const response = await fetch('/api/appointments', {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -173,5 +173,4 @@
         });
     </script>
 </body>
-
 </html>
