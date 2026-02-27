@@ -3,8 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { OAuth2Client } = require('google-auth-library');
 
-// --- 📝 INSCRIPTION (Pour les patients) ---
+// --- 📝 INSCRIPTION CLASSIQUE ---
 router.post('/register', async (req, res) => {
     const { nom, prenom, telephone, email, password } = req.body;
     try {
@@ -17,7 +18,7 @@ router.post('/register', async (req, res) => {
         await user.save();
 
         const payload = { user: { id: user.id, role: user.role } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
             if (err) throw err;
             res.json({ token, role: user.role });
         });
@@ -26,7 +27,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// --- 🔐 CONNEXION (Pour tout le monde) ---
+// --- 🔐 CONNEXION CLASSIQUE ---
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -37,12 +38,54 @@ router.post('/login', async (req, res) => {
         if (!isMatch) return res.status(400).json({ msg: 'Identifiants invalides' });
 
         const payload = { user: { id: user.id, role: user.role } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
             if (err) throw err;
-            res.json({ token, role: user.role }); // On renvoie le token ET le rôle
+            res.json({ token, role: user.role }); 
         });
     } catch (err) {
         res.status(500).send('Erreur serveur');
     }
 });
+
+// --- 🌐 CONNEXION AVEC GOOGLE ---
+router.post('/google', async (req, res) => {
+    const { token } = req.body;
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,  
+        });
+        const payload = ticket.getPayload();
+        const { email, given_name, family_name, sub } = payload;
+
+        let user = await User.findOne({ email });
+        
+        // Si l'utilisateur Google n'existe pas encore, on crée son compte en 1 seconde
+        if (!user) {
+            user = new User({
+                nom: family_name || 'Inconnu',
+                prenom: given_name || 'Inconnu',
+                telephone: '', // Pas de téléphone via Google
+                email: email,
+                password: sub, // L'ID Google sert de mot de passe sécurisé (caché)
+                role: 'patient'
+            });
+            await user.save();
+        }
+
+        // Création du passe-partout (Token)
+        const jwtPayload = { user: { id: user.id, role: user.role } };
+        jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
+            if (err) throw err;
+            res.json({ token, role: user.role });
+        });
+
+    } catch (error) {
+        console.error("Erreur Google Auth:", error);
+        res.status(401).json({ msg: 'Authentification Google échouée' });
+    }
+});
+
 module.exports = router;
