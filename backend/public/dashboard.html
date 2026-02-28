@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Allo Kiné</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container { padding: 2rem 5%; max-width: 1400px; margin: 0 auto; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .table-responsive { overflow-x: auto; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow-premium); }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: var(--nav-bg); color: white; font-weight: normal; }
+        tr:hover { background-color: rgba(197, 160, 89, 0.05); }
+        .status-badge { background: #e3fcef; color: #00875a; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+        .logout-btn { background: transparent; border: 1px solid var(--gold-accent); color: var(--text-color); padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .logout-btn:hover { background: var(--gold-accent); color: white; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link">
+            <span class="brand-name">ALLO KINÉ <span style="color: var(--gold-accent);">PRO</span></span>
+        </a>
+        <button id="logout-btn" class="logout-btn">Déconnexion</button>
+    </header>
+
+    <div class="dashboard-container" style="margin-top: 100px;">
+        <div class="dashboard-header">
+            <h1>Rendez-vous Patients</h1>
+            <button onclick="loadAppointments()" class="pay-btn" style="width: auto; padding: 0.5rem 1.5rem;">Actualiser</button>
+        </div>
+
+        <!-- SECTION BLOG ADMIN -->
+        <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 2rem; border-left: 4px solid var(--gold-accent);">
+            <h2 style="margin-bottom: 1rem; color: var(--gold-accent);">Publier un Article</h2>
+            <form id="blog-form">
+                <input type="hidden" id="article-id">
+                <input type="text" id="article-title" class="vip-input" placeholder="Titre de l'article" required>
+                <input type="file" id="article-image" class="vip-input" accept="image/*">
+                <textarea id="article-content" class="vip-input" rows="4" placeholder="Contenu de l'article..." required></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" id="submit-article-btn" class="pay-btn" style="width: auto;">Publier l'article</button>
+                    <button type="button" id="cancel-edit-btn" class="pay-btn" style="width: auto; background: #95a5a6; display: none;">Annuler</button>
+                </div>
+            </form>
+            <div id="admin-articles-list" style="margin-top: 2rem;">
+                <!-- Liste des articles pour suppression -->
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date demande</th>
+                        <th>Patient</th>
+                        <th>Téléphone</th>
+                        <th>Motif</th>
+                        <th>Diagnostic (IA)</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="appointments-table-body">
+                    <!-- Les RDV seront insérés ici par JS -->
+                    <tr><td colspan="6" style="text-align:center;">Chargement...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Gestion spécifique déconnexion
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

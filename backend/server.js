@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const fs = require('fs');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -14,6 +15,12 @@ if (!process.env.MONGO_URI) {
 }
 
 const app = express();
+
+// --- 📂 CRÉATION DU DOSSIER UPLOADS SI INEXISTANT ---
+const uploadDir = path.join(__dirname, 'public', 'uploads');
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // --- 🛡️ MIDDLEWARES DE SÉCURITÉ ---
 app.use(helmet({
@@ -35,6 +42,7 @@ mongoose.connect(mongoUri)
 // --- 📍 ROUTES DE L'API ---
 app.use('/api/appointments', require('./routes/appointments'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/articles', require('./routes/articles'));
 
 // --- 🎨 AFFICHER LE VISUEL DU SITE WEB (FRONTEND) ---
 // On indique que tous les fichiers HTML/CSS/JS sont désormais dans le dossier 'public'

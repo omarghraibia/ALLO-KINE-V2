@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Santé & Conseils | ALLO KINÉ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .blog-container { max-width: 1000px; margin: 120px auto 4rem; padding: 0 5%; }
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .article-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-light); transition: transform 0.3s; border: 1px solid var(--border-color); }
+        .article-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-premium); }
+        .article-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .article-content { padding: 1.5rem; }
+        .article-date { font-size: 0.85rem; color: var(--gold-accent); margin-bottom: 0.5rem; display: block; }
+        .article-title { font-size: 1.3rem; margin-bottom: 1rem; color: var(--nav-bg); }
+        .article-excerpt { font-size: 0.95rem; opacity: 0.8; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
+            <span class="brand-name">ALLO KINÉ</span>
+        </a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="contact.html">Prendre RDV</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="blog-container reveal active">
+        <h1 class="section-title" style="text-align: center; margin-bottom: 1rem; color: var(--gold-accent);">Conseils Santé & Actualités</h1>
+        <p style="text-align: center; margin-bottom: 3rem; opacity: 0.8;">Les derniers articles du Dr Ghraybia pour votre bien-être.</p>
+
+        <div id="articles-grid" class="articles-grid">
+            <!-- Les articles seront chargés ici par JS -->
+            <p style="text-align:center; width:100%;">Chargement des articles...</p>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; background: var(--nav-bg); color: white;">
+        <p>© 2026 ALLO KINÉ</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadArticles);
+    </script>
+</body>
+</html>

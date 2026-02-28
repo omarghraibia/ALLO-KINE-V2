@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Cabinet & Équipements | ALLO KINÉ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; border: 2px solid var(--gold-accent); height: 250px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-caption { position: absolute; bottom: 0; background: rgba(10, 25, 47, 0.8); color: white; width: 100%; padding: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
+            <span class="brand-name">ALLO KINÉ</span>
+        </a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="contact.html">Prendre RDV</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="margin-top: 120px; padding: 0 5%; margin-bottom: 4rem;">
+        <section class="reveal active">
+            <h1 class="section-title" style="text-align: center; color: var(--gold-accent);">Un Espace Dédié à la Santé</h1>
+            <p style="text-align: center; max-width: 700px; margin: 1rem auto; opacity: 0.9;">
+                Situé au cœur de La Marsa, notre cabinet "VIP Body Center" est équipé des dernières technologies pour assurer une rééducation optimale dans un cadre moderne et hygiénique.
+            </p>
+
+            <div class="gallery-grid">
+                <!-- Remplacez les src par vos vraies photos -->
+                <div class="gallery-item">
+                    <img src="phototerrain.jpg" alt="Salle de rééducation">
+                    <div class="gallery-caption">Plateau Technique</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Salle de massage">
+                    <div class="gallery-caption">Espace Soins Manuels</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Équipement Sportif">
+                    <div class="gallery-caption">Renforcement Musculaire</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Technologie">
+                    <div class="gallery-caption">Électrothérapie & Ultrasons</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); color: white; text-align: center; padding: 2rem;">
+        <p>📍 Rue Errazi, La Marsa (VIP Body Center)</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

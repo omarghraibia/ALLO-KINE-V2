@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Questions Fréquentes | ALLO KINÉ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .faq-container { max-width: 800px; margin: 120px auto 4rem; padding: 0 5%; }
+        .faq-item { background: var(--card-bg); border-radius: 10px; margin-bottom: 1rem; box-shadow: var(--shadow-light); overflow: hidden; }
+        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--nav-bg); }
+        .faq-question:hover { background: rgba(197, 160, 89, 0.05); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 1.5rem; opacity: 0.9; line-height: 1.6; }
+        .faq-item.active .faq-answer { padding-bottom: 1.5rem; max-height: 500px; }
+        .faq-icon { transition: transform 0.3s; color: var(--gold-accent); }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
+            <span class="brand-name">ALLO KINÉ</span>
+        </a>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="faq-container reveal active">
+        <h1 class="section-title" style="text-align: center; margin-bottom: 3rem; color: var(--gold-accent);">Questions Fréquentes</h1>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Faut-il une ordonnance médicale ?
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>Pour les soins de kinésithérapie remboursés par la CNAM ou les assurances, une ordonnance est obligatoire. Pour les massages de bien-être ou le coaching sportif (X-Body), l'accès est direct sans ordonnance.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Acceptez-vous les urgences à domicile ?
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>Oui, nous intervenons à domicile sur La Marsa, Gammarth et Carthage pour les cas ne pouvant pas se déplacer (post-opératoire, personnes âgées). Merci de nous contacter par téléphone pour vérifier la disponibilité.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Qu'est-ce que la technologie X-Body ?
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>C'est une technologie d'électrostimulation musculaire (EMS) qui permet de faire l'équivalent de 1h30 de sport en seulement 20 minutes. C'est idéal pour le renforcement musculaire rapide et la perte de poids, sous contrôle médical.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">
+                Quels sont les moyens de paiement ?
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>Nous acceptons les espèces, les chèques et les virements bancaires (D17). Le paiement par carte bancaire est disponible pour les programmes en ligne.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; background: var(--nav-bg); color: white;">
+        <p>© 2026 ALLO KINÉ - <a href="contact.html" style="color: var(--gold-accent);">Poser une autre question</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Script simple pour l'accordéon
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
