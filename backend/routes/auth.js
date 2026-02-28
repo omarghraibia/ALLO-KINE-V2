@@ -47,6 +47,7 @@ function verifyRecaptchaToken(token) {
 router.post('/register', [
     // RÈGLES DE VALIDATION
     check('nom', 'Le nom est requis').not().isEmpty(),
+    check('prenom', 'Le prénom est requis').not().isEmpty(),
     check('email', 'Veuillez inclure un email valide').isEmail(),
     check('password', 'Veuillez entrer un mot de passe avec 6 caractères minimum').isLength({ min: 6 })
 ], async (req, res) => {
@@ -127,14 +128,16 @@ router.post('/google', async (req, res) => {
 
         let user = await User.findOne({ email });
         
-        // Si l'utilisateur Google n'existe pas encore, on crée son compte en 1 seconde
+        // Si l'utilisateur Google n'existe pas encore, on crée son compte en sécurisant le mot de passe
         if (!user) {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(sub, salt);
             user = new User({
                 nom: family_name || 'Inconnu',
                 prenom: given_name || 'Inconnu',
                 telephone: '', // Pas de téléphone via Google
                 email: email,
-                password: sub, // L'ID Google sert de mot de passe sécurisé (caché)
+                password: hashedPassword,
                 role: 'patient'
             });
             await user.save();

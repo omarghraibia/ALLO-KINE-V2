@@ -5,7 +5,7 @@ const AppointmentSchema = new mongoose.Schema({
     prenom: { type: String, required: true },
     telephone: { type: String, required: true },
     motif: { type: String, required: true },
-    diagnostic: { type: String, required: true },
+    diagnostic: { type: String },
     statut: { type: String, default: 'en_attente' },
     createdAt: { type: Date, default: Date.now }
 });

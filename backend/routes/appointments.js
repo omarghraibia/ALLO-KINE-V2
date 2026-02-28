@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 const Appointment = require('../models/Appointment');
 const auth = require('../middleware/auth'); // Import du cadenas
 
 // Route Publique (Les patients créent un RDV)
-router.post('/', async (req, res) => {
+router.post('/', [
+    check('nom', 'Le nom est requis').not().isEmpty(),
+    check('prenom', 'Le prénom est requis').not().isEmpty(),
+    check('telephone', 'Le téléphone est requis').not().isEmpty(),
+    check('motif', 'Le motif est requis').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
     try {
         const newAppointment = new Appointment(req.body);
         const appointment = await newAppointment.save();

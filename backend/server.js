@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(helmet({
 }));
 app.use(cors());
 app.use(express.json({ limit: '10kb' })); 
+app.use(cookieParser());
 
 // Protection contre le spam de requêtes sur l'API
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
@@ -44,8 +46,3 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Serveur ALLO KINÉ actif sur le port ${PORT}`);
  
 });
-// En haut de ton fichier, avec les autres imports
-const cookieParser = require('cookie-parser');
-
-// Juste après tes autres app.use() (comme express.json)
-app.use(cookieParser());
