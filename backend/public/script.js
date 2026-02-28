@@ -144,6 +144,9 @@ if (searchInput) {
     });
 }
 
+// Variable globale pour stocker les RDV et permettre le filtrage
+let allAppointmentsData = [];
+
 // --- 7. FONCTIONNALITÉS DASHBOARD (ESPACE DOCTEUR) ---
 // Cette fonction est appelée par dashboard.html
 async function loadAppointments() {
@@ -202,6 +205,7 @@ async function loadAppointments() {
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Erreur de chargement.</td></tr>';
     }
 }
+*/
 
 // Exposer la fonction globalement pour qu'elle soit accessible via onclick dans le HTML
 window.loadAppointments = loadAppointments;

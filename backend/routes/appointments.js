@@ -73,6 +73,25 @@ router.post('/', [
 
         const newAppointment = new Appointment({ nom, prenom, email, telephone, motif, diagnostic, user: userId });
         const appointment = await newAppointment.save();
+
+        // --- NOTIFICATION EMAIL AU PRATICIEN (NOUVEAU) ---
+        // Pour un service premium, le cabinet est alerté en temps réel
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: '"Site Web ALLO KINÉ" <' + process.env.EMAIL_USER + '>',
+            to: process.env.EMAIL_USER, // S'envoie à soi-même (le cabinet)
+            subject: `🔔 Nouveau RDV : ${nom} ${prenom}`,
+            text: `Nouvelle demande de rendez-vous.\n\nPatient : ${nom} ${prenom}\nTéléphone : ${telephone}\nMotif : ${motif}\n\nConnectez-vous au dashboard pour traiter la demande.`
+        };
+        transporter.sendMail(mailOptions, (err) => { if(err) console.error("Erreur mail admin:", err); });
+
         res.json(appointment);
     } catch (err) {
         res.status(500).send('Erreur Serveur');

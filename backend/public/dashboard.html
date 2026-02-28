@@ -32,6 +32,30 @@
             <button onclick="loadAppointments()" class="pay-btn" style="width: auto; padding: 0.5rem 1.5rem;">Actualiser</button>
         </div>
 
+        <!-- SECTION STATISTIQUES (KPI) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>En Attente</h3>
+                <p id="stat-pending" class="stat-number">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Confirmés</h3>
+                <p id="stat-confirmed" class="stat-number">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Patients</h3>
+                <p id="stat-total" class="stat-number">0</p>
+            </div>
+        </div>
+
+        <!-- FILTRES -->
+        <div class="filter-container" id="filter-buttons">
+            <button class="filter-btn active" onclick="filterAppointments('all')">Tous</button>
+            <button class="filter-btn" onclick="filterAppointments('en_attente')">En attente</button>
+            <button class="filter-btn" onclick="filterAppointments('confirme')">Confirmés</button>
+            <button class="filter-btn" onclick="filterAppointments('termine')">Terminés</button>
+        </div>
+
         <!-- SECTION BLOG ADMIN -->
         <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 2rem; border-left: 4px solid var(--gold-accent);">
             <h2 style="margin-bottom: 1rem; color: var(--gold-accent);">Publier un Article</h2>
