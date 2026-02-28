@@ -34,6 +34,11 @@ h1, h2, h3 { font-family: 'Georgia', serif; font-weight: normal; color: var(--na
 [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 { color: var(--gold-accent); }
 
 /* Scrollbar personnalisée */
+html {
+    /* Standard pour Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-accent) var(--bg-color);
+}
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--bg-color); }
 ::-webkit-scrollbar-thumb { background: var(--gold-accent); border-radius: 5px; }

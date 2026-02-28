@@ -15,6 +15,12 @@ module.exports = function(req, res, next) {
         req.user = decoded.user;
         next();
     } catch (err) {
+        // Si le token est invalide ou expiré, on nettoie le cookie pour éviter les conflits
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict'
+        });
         res.status(401).json({ msg: 'Le token n\'est pas valide' });
     }
 };

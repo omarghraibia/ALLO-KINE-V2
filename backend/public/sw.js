@@ -8,10 +8,13 @@ const staticAssets = [
   './phototerrain.jpg'
 ];
 
-self.addEventListener('install', async e => {
-  const cache = await caches.open(cacheName);
-  await cache.addAll(staticAssets);
-  return self.skipWaiting();
+self.addEventListener('install', e => {
+  // e.waitUntil garantit que le Service Worker ne s'installe pas tant que le cache n'est pas prêt
+  e.waitUntil(
+    caches.open(cacheName)
+      .then(cache => cache.addAll(staticAssets))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('fetch', async e => {
