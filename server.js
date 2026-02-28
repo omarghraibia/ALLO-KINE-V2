@@ -41,10 +41,10 @@ mongoose.connect(mongoUri)
   .then(() => console.log('Base de données connectée ! 🛡️'))
   .catch(err => console.error('Erreur de connexion MongoDB :', err));
 
-// --- 📍 ROUTES DE L'API ---
-app.use('/api/appointments', require('./routes/appointments'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/articles', require('./routes/articles'));
+// ---  ROUTES DE L'API ---;
+app.use('/api/appointments', require('./src/routes/appointments'));
+app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/articles', require('./src/routes/articles'));
 
 // --- 🎨 AFFICHER LE VISUEL DU SITE WEB (FRONTEND) ---
 // On indique que tous les fichiers HTML/CSS/JS sont désormais dans le dossier 'public'
