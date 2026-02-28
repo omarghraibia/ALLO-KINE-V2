@@ -82,7 +82,7 @@ router.post('/register', [
             secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000, // 24h en millisecondes
             sameSite: 'Strict' // Protection CSRF
-        }).json({ msg: 'Inscription réussie', role: user.role });
+        }).json({ token, msg: 'Inscription réussie', role: user.role });
     } catch (err) {
         res.status(500).send('Erreur serveur');
     }
@@ -164,7 +164,7 @@ router.post('/login', async (req, res) => {
             secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000, // 24h
             sameSite: 'Strict'
-        }).json({ msg: 'Connecté avec succès', role: user.role });
+        }).json({ token, msg: 'Connecté avec succès', role: user.role });
     } catch (err) {
         res.status(500).json({ msg: 'Erreur serveur' });
     }
@@ -209,7 +209,7 @@ router.post('/google', async (req, res) => {
             secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000, // 24h
             sameSite: 'Strict'
-        }).json({ msg: 'Connecté avec succès', role: user.role });
+        }).json({ token, msg: 'Connecté avec succès', role: user.role });
 
     } catch (error) {
         console.error("Erreur Google Auth:", error);
