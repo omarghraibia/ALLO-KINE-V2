@@ -229,4 +229,28 @@ router.post('/logout', (req, res) => {
     return res.json({ msg: 'Déconnexion réussie' });
 });
 
+// --- ✅ VÉRIFIER L'AUTHENTIFICATION ---
+router.get('/verify', (req, res) => {
+    const token = req.cookies && req.cookies.token;
+    
+    if (!token) {
+        return res.status(401).json({ msg: 'Non authentifié' });
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return res.json({ 
+            msg: 'Authentifié',
+            role: decoded.user.role,
+            id: decoded.user.id
+        });
+    } catch (err) {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production'
+        });
+        return res.status(401).json({ msg: 'Token invalide' });
+    }
+});
+
 module.exports = router;
