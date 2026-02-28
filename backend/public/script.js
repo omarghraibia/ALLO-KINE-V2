@@ -59,23 +59,33 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const formData = {
-                nom: document.getElementById('nom').value,
-                prenom: document.getElementById('prenom').value,
-                email: document.getElementById('email').value,
-                telephone: document.getElementById('telephone').value,
-                motif: document.getElementById('motif').value,
-                diagnostic: document.getElementById('diagnostic').value
-            };
+            // --- MODIFICATION POUR UPLOAD FICHIERS (FormData) ---
+            const formData = new FormData();
+            formData.append('nom', document.getElementById('nom').value);
+            formData.append('prenom', document.getElementById('prenom').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('telephone', document.getElementById('telephone').value);
+            formData.append('motif', document.getElementById('motif').value);
+            formData.append('diagnostic', document.getElementById('diagnostic').value);
+            
+            // Ajout des champs Agenda si présents dans le HTML
+            if(document.getElementById('dateRdv')) formData.append('dateRdv', document.getElementById('dateRdv').value);
+            if(document.getElementById('heureRdv')) formData.append('heureRdv', document.getElementById('heureRdv').value);
+            
+            // Ajout des fichiers si présents
+            const fileInput = document.getElementById('documents');
+            if (fileInput && fileInput.files.length > 0) {
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    formData.append('documents', fileInput.files[i]);
+                }
+            }
 
             try {
                 // Utilisation du chemin relatif pour Railway
                 const response = await fetch('/api/appointments', {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData),
+                    // Ne pas mettre Content-Type avec FormData, le navigateur le fait
+                    body: formData,
                     credentials: 'include'
                 });                if (response.ok) {
                     alert("Rendez-vous enregistré avec succès !");
@@ -165,50 +175,108 @@ async function loadAppointments() {
             return;
         }
 
-        const appointments = await res.json();
-        tbody.innerHTML = '';
+        allAppointmentsData = await res.json();
+        
+        // Mise à jour des KPIs
+        updateDashboardStats(allAppointmentsData);
+        
+        // Affichage initial (Tous)
+        renderAppointmentsTable(allAppointmentsData);
 
-        if (appointments.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Aucun rendez-vous pour le moment.</td></tr>';
-            return;
-        }
-
-        appointments.forEach(app => {
-            const date = new Date(app.createdAt).toLocaleDateString('fr-FR', {
-                day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'
-            });
-
-            // Création du menu déroulant pour le statut
-            const statusOptions = `
-                <select onchange="updateStatus(this, '${app._id}')" style="padding: 5px; border-radius: 5px; border: 1px solid var(--gold-accent); background: var(--bg-color); color: var(--text-color); cursor: pointer;">
-                    <option value="en_attente" ${app.statut === 'en_attente' ? 'selected' : ''}>En attente</option>
-                    <option value="confirme" ${app.statut === 'confirme' ? 'selected' : ''}>✅ Confirmé</option>
-                    <option value="termine" ${app.statut === 'termine' ? 'selected' : ''}>🏁 Terminé</option>
-                    <option value="annule" ${app.statut === 'annule' ? 'selected' : ''}>❌ Annulé</option>
-                </select>
-            `;
-            
-            const row = `
-                <tr>
-                    <td>${date}</td>
-                    <td><strong>${app.nom} ${app.prenom}</strong></td>
-                    <td><a href="tel:${app.telephone}" style="color: var(--gold-accent);">${app.telephone}</a></td>
-                    <td>${app.motif}</td>
-                    <td>${app.diagnostic || '-'}</td>
-                    <td>${statusOptions}</td>
-                </tr>
-            `;
-            tbody.innerHTML += row;
-        });
     } catch (err) {
         console.error("Erreur chargement RDV:", err);
         tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Erreur de chargement.</td></tr>';
     }
 }
-*/
 
-// Exposer la fonction globalement pour qu'elle soit accessible via onclick dans le HTML
+// Fonction d'affichage avec support WhatsApp, Visio et Documents
+function renderAppointmentsTable(appointments) {
+    const tbody = document.getElementById('appointments-table-body');
+    tbody.innerHTML = '';
+
+    if (appointments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem; opacity: 0.7;">Aucun rendez-vous trouvé pour ce filtre.</td></tr>';
+        return;
+    }
+
+    appointments.forEach(app => {
+        // Date de création ou Date du RDV si définie
+        const dateDisplay = app.dateRdv 
+            ? `<span style="color:var(--gold-accent); font-weight:bold;">${app.dateRdv}</span><br><small>${app.heureRdv || ''}</small>`
+            : new Date(app.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+
+        // Lien WhatsApp direct
+        let cleanPhone = app.telephone.replace(/\D/g, ''); 
+        // Si le numéro fait 8 chiffres (format local Tunisie), on ajoute 216. 
+        // Sinon, on suppose que c'est déjà un format international.
+        if (cleanPhone.length === 8) cleanPhone = '216' + cleanPhone;
+        const waLink = `https://wa.me/${cleanPhone}`;
+
+        // Gestion des documents et liens Visio
+        let actionsHtml = '';
+        if (app.documents && app.documents.length > 0) {
+            actionsHtml += `<a href="${app.documents[0]}" target="_blank" class="action-icon" title="Voir document">📂</a> `;
+        }
+        if (app.meetingLink) {
+            actionsHtml += `<a href="${app.meetingLink}" target="_blank" class="action-icon" title="Lancer Visio" style="color:#3498db;">📹</a>`;
+        }
+        if (!actionsHtml) actionsHtml = '-';
+
+        const statusOptions = `
+            <select onchange="updateStatus(this, '${app._id}')" style="padding: 5px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); cursor: pointer; font-weight:500;">
+                <option value="en_attente" ${app.statut === 'en_attente' ? 'selected' : ''}>⏳ En attente</option>
+                <option value="confirme" ${app.statut === 'confirme' ? 'selected' : ''}>✅ Confirmé</option>
+                <option value="termine" ${app.statut === 'termine' ? 'selected' : ''}>🏁 Terminé</option>
+                <option value="annule" ${app.statut === 'annule' ? 'selected' : ''}>❌ Annulé</option>
+            </select>
+        `;
+        
+        const row = `
+            <tr style="transition: background 0.2s;">
+                <td style="font-size: 0.9rem;">${dateDisplay}</td>
+                <td><strong>${app.nom} ${app.prenom}</strong></td>
+                <td>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <a href="tel:${app.telephone}" style="color: var(--text-color); text-decoration:none;">${app.telephone}</a>
+                        <a href="${waLink}" target="_blank" title="WhatsApp" style="color: #25D366; font-size: 1.2rem;">💬</a>
+                    </div>
+                </td>
+                <td>${actionsHtml}</td>
+                <td>${app.motif}</td>
+                <td><span style="font-size:0.9rem; opacity:0.8;">${app.diagnostic || '-'}</span></td>
+                <td>${statusOptions}</td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+// Export CSV pour la comptabilité
+function exportToCSV() {
+    if (allAppointmentsData.length === 0) { alert("Aucune donnée à exporter."); return; }
+    
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Date RDV,Heure,Nom,Prenom,Telephone,Motif,Statut,Lien Visio\n"; // En-têtes
+
+    allAppointmentsData.forEach(app => {
+        const date = app.dateRdv || new Date(app.createdAt).toLocaleDateString('fr-FR');
+        const row = `${date},${app.heureRdv || '-'},${app.nom},${app.prenom},${app.telephone},${app.motif},${app.statut},${app.meetingLink || ''}`;
+        csvContent += row + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "allo_kine_export_compta.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Exposer globalement
 window.loadAppointments = loadAppointments;
+window.filterAppointments = filterAppointments;
+window.exportToCSV = exportToCSV;
 
 // Fonction pour mettre à jour le statut (appelée par le select)
 async function updateStatus(selectElement, id) {

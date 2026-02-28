@@ -1,3 +1,4 @@
+require('dotenv').config(); // 1. Charger la config en tout premier
 const express = require('express');
 const mongoose = require('mongoose');
 const fs = require('fs');
@@ -6,7 +7,6 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
 
 // URI Mongo : utiliser la variable d'env si fournie, sinon fallback local
 const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/allo-kine';

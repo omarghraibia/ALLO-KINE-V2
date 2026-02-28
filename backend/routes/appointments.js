@@ -3,6 +3,8 @@ const router = express.Router();
 const https = require('https');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const path = require('path');
 const { check, validationResult } = require('express-validator');
 const Appointment = require('../models/Appointment');
 const auth = require('../middleware/auth'); // Import du cadenas
@@ -43,8 +45,22 @@ function verifyRecaptchaToken(token) {
     });
 }
 
+// --- CONFIGURATION UPLOAD (Dossier Médical) ---
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'doc-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB max
+});
+
 // Route Publique (Les patients créent un RDV)
-router.post('/', [
+router.post('/', upload.array('documents', 3), [
     check('nom', 'Le nom est requis').not().isEmpty(),
     check('prenom', 'Le prénom est requis').not().isEmpty(),
     check('telephone', 'Le téléphone est requis').not().isEmpty(),
@@ -54,7 +70,7 @@ router.post('/', [
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     try {
-        const { nom, prenom, email, telephone, motif, diagnostic, recaptchaToken } = req.body;
+        const { nom, prenom, email, telephone, motif, diagnostic, recaptchaToken, dateRdv, heureRdv } = req.body;
 
         // Vérification reCAPTCHA
         const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
@@ -71,7 +87,25 @@ router.post('/', [
             }
         }
 
-        const newAppointment = new Appointment({ nom, prenom, email, telephone, motif, diagnostic, user: userId });
+        // --- TÉLÉMÉDECINE ONE-CLICK ---
+        let meetingLink = '';
+        if (motif && motif.toLowerCase().includes('visio')) {
+            // Génère un lien unique sécurisé
+            const roomName = `AlloKine-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+            meetingLink = `https://meet.jit.si/${roomName}`;
+        }
+
+        // --- GESTION DES FICHIERS ---
+        const documents = req.files ? req.files.map(file => `/uploads/${file.filename}`) : [];
+
+        const newAppointment = new Appointment({ 
+            nom, prenom, email, telephone, motif, diagnostic, 
+            user: userId,
+            dateRdv, // Nouveau champ agenda
+            heureRdv, // Nouveau champ agenda
+            documents, // Nouveau champ dossier médical
+            meetingLink // Nouveau champ télémédecine
+        });
         const appointment = await newAppointment.save();
 
         // --- NOTIFICATION EMAIL AU PRATICIEN (NOUVEAU) ---
@@ -88,7 +122,7 @@ router.post('/', [
             from: '"Site Web ALLO KINÉ" <' + process.env.EMAIL_USER + '>',
             to: process.env.EMAIL_USER, // S'envoie à soi-même (le cabinet)
             subject: `🔔 Nouveau RDV : ${nom} ${prenom}`,
-            text: `Nouvelle demande de rendez-vous.\n\nPatient : ${nom} ${prenom}\nTéléphone : ${telephone}\nMotif : ${motif}\n\nConnectez-vous au dashboard pour traiter la demande.`
+            text: `Nouvelle demande.\nPatient : ${nom} ${prenom}\nTéléphone : ${telephone}\nMotif : ${motif}\nDate souhaitée : ${dateRdv || 'Non spécifiée'} à ${heureRdv || ''}\n\nConnectez-vous au dashboard.`
         };
         transporter.sendMail(mailOptions, (err) => { if(err) console.error("Erreur mail admin:", err); });
 

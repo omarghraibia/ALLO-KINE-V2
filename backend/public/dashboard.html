@@ -29,7 +29,10 @@
     <div class="dashboard-container" style="margin-top: 100px;">
         <div class="dashboard-header">
             <h1>Rendez-vous Patients</h1>
-            <button onclick="loadAppointments()" class="pay-btn" style="width: auto; padding: 0.5rem 1.5rem;">Actualiser</button>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="exportToCSV()" class="pay-btn" style="background: #27ae60; border-color: #27ae60; width: auto; padding: 0.5rem 1.5rem;">📄 Export Compta (.csv)</button>
+                <button onclick="loadAppointments()" class="pay-btn" style="width: auto; padding: 0.5rem 1.5rem;">Actualiser</button>
+            </div>
         </div>
 
         <!-- SECTION STATISTIQUES (KPI) -->
@@ -78,9 +81,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Date demande</th>
+                        <th>Date / Heure RDV</th>
                         <th>Patient</th>
-                        <th>Téléphone</th>
+                        <th>Contact</th>
+                        <th>Dossier / Visio</th>
                         <th>Motif</th>
                         <th>Diagnostic (IA)</th>
                         <th>Statut</th>
