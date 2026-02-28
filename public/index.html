@@ -18,13 +18,13 @@
 </head>
 <body>
 
-    <header>
+    <header class="navbar">
         <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <img src="logo.png" alt="Logo Allo Kiné" class="logo-img">
             
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
-                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+            <div class="brand-block">
+                <div class="brand-name">ALLO KINÉ</div>
+                <div class="brand-doctor">
                     Dr Fethi Ghraybia
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="menu-toggle" id="mobile-menu">☰</div>
         
         <nav>
-            <ul id="nav-menu">
+            <ul id="nav-menu" class="nav-links">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="competences.html">Nos Soins & Tarifs</a></li>
                 <li><a href="experiences.html">Expertise</a></li>
@@ -42,11 +42,11 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 
-                <li id="nav-login"><a href="login.html" style="color: var(--gold-accent);">Se connecter</a></li>
-                <li id="nav-register"><a href="register.html" style="background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px;">S'inscrire</a></li>
+                <li id="nav-login"><a href="login.html" class="login-link">Se connecter</a></li>
+                <li id="nav-register"><a href="register.html" class="register-btn">S'inscrire</a></li>
                 
-                <li id="nav-dashboard" style="display: none;"><a href="#" id="dashboard-link" style="color: var(--gold-accent); font-weight: bold;">Mon Espace</a></li>
-                <li id="nav-logout" style="display: none;"><a href="#" id="logout-btn-nav" style="color: #ff4757;">Déconnexion</a></li>
+                <li id="nav-dashboard" style="display: none;"><a href="#" id="dashboard-link" class="dashboard-link">Mon Espace</a></li>
+                <li id="nav-logout" style="display: none;"><a href="#" id="logout-btn-nav" class="logout-link">Déconnexion</a></li>
                 
                 <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
@@ -104,10 +104,30 @@
         </section>
     </main>
 
-    <footer style="background-color: var(--nav-bg); color: white; text-align: center; padding: 4rem 5%;">
-        <h3 style="color: var(--gold-accent); letter-spacing: 2px;">ALLO KINÉ</h3>
-        <p style="opacity: 0.7; margin: 1.5rem 0;">📍 Rue Errazi, La Marsa (VIP Body Center)<br>Tunis, Tunisie</p>
-        <p style="font-size: 0.8rem; opacity: 0.5;">© 2026 Tous droits réservés. Excellence & Santé.</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>ALLO KINÉ</h3>
+                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe à La Marsa.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Liens Rapides</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="competences.html">Soins & Tarifs</a></li>
+                    <li><a href="cabinet.html">Le Cabinet</a></li>
+                    <li><a href="contact.html">Prendre RDV</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <p>📍 Rue Errazi, La Marsa<br>(VIP Body Center)</p>
+                <p>📞 +216 98 56 15 86</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 ALLO KINÉ. Tous droits réservés. Excellence & Santé.</p>
+        </div>
     </footer>
 
     <a href="https://wa.me/21698561586" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactez-nous sur WhatsApp">
