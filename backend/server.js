@@ -7,6 +7,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
+// URI Mongo : utiliser la variable d'env si fournie, sinon fallback local
+const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/allo-kine';
+if (!process.env.MONGO_URI) {
+  console.warn('⚠️  Avertissement : la variable d\'environnement MONGO_URI est absente. Utilisation du fallback local', mongoUri);
+}
+
 const app = express();
 
 // --- 🛡️ MIDDLEWARES DE SÉCURITÉ ---
@@ -22,7 +28,7 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use('/api/', limiter);
 
 // --- 🔗 CONNEXION BASE DE DONNÉES ---
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(mongoUri)
   .then(() => console.log('Base de données connectée ! 🛡️'))
   .catch(err => console.error('Erreur de connexion MongoDB :', err));
 
