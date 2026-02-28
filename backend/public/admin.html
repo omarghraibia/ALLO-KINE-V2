@@ -64,9 +64,9 @@
     </main>
 
     <script>
-        // --- 🛡️ 1. CONTRÔLE D'ACCÈS (CYBERSÉCURITÉ) ---
-        const token = localStorage.getItem('token');
-        if (!token) {
+        const role = localStorage.getItem('role');
+        
+        if (!role || role !== 'admin') {
             window.location.href = 'login.html';
         }
 
@@ -91,7 +91,7 @@
                     <td><strong>${app.nom} ${app.prenom}</strong></td>
                     <td><a href="tel:${app.telephone}" style="color: var(--gold-accent); text-decoration: none;">${app.telephone}</a></td>
                     <td>${app.motif}</td>
-                    <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${app.diagnostic}">${app.diagnostic}</td>
+                    <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${app.diagnostic || 'En attente'}">${app.diagnostic || 'En attente'}</td>
                     <td><span class="status-badge">À traiter</span></td>
                 `;
                 tbody.appendChild(tr);
@@ -101,18 +101,15 @@
         // --- 📡 2. RÉCUPÉRATION DES DONNÉES ---
         const fetchAppointments = async () => {
             try {
-                // CORRECTION DE LA SYNTAXE ICI (plus de parenthèse avant la virgule)
                 const response = await fetch('/api/appointments', {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': token 
-                    }
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
                 });
 
                 if (response.status === 401 || response.status === 403) {
                     alert("Votre session a expiré. Veuillez vous reconnecter.");
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
                     window.location.href = 'login.html';
                     return;
                 }
@@ -127,7 +124,7 @@
 
         // --- 🔒 4. DÉCONNEXION ---
         document.getElementById('logout-btn').addEventListener('click', () => {
-            localStorage.removeItem('token');
+            localStorage.removeItem('role');
             window.location.href = 'login.html';
         });
 
