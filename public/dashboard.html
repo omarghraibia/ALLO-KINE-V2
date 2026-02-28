@@ -3,106 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord - Allo Kiné</title>
+    <title>Tableau de Bord | ALLO KINÉ</title>
+    
+    <link rel="stylesheet" href="/style.css">
+    
     <style>
-        .dashboard-container { padding: 2rem 5%; max-width: 1400px; margin: 0 auto; }
-        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
-        .table-responsive { overflow-x: auto; background: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow-premium); }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-        th { background: var(--nav-bg); color: white; font-weight: normal; }
-        tr:hover { background-color: rgba(197, 160, 89, 0.05); }
-        .status-badge { background: #e3fcef; color: #00875a; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
-        .logout-btn { background: transparent; border: 1px solid var(--gold-accent); color: var(--text-color); padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        .logout-btn:hover { background: var(--gold-accent); color: white; }
+        /* Styles spécifiques pour l'interface d'administration */
+        body { background-color: var(--bg-color); color: var(--text-color); }
+        .admin-container { padding: 120px 5% 50px; min-height: 80vh; }
+        .dashboard-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 15px; }
+        
+        /* Design du tableau de données */
+        .table-wrapper { overflow-x: auto; background: var(--card-bg); border-radius: 10px; box-shadow: var(--shadow-premium); border: 1px solid var(--border-color); }
+        .appointments-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .appointments-table th, .appointments-table td { padding: 1.2rem; border-bottom: 1px solid var(--border-color); }
+        .appointments-table th { background-color: var(--nav-bg); color: var(--gold-accent); font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        .appointments-table tr:hover { background-color: rgba(197, 160, 89, 0.05); }
+        
+        /* Boutons d'action */
+        .refresh-btn { background: var(--gradient-gold); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: var(--transition); box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2); }
+        .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(197, 160, 89, 0.4); }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo-link">
-            <span class="brand-name">ALLO KINÉ <span style="color: var(--gold-accent);">PRO</span></span>
+
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="logo.png" alt="Logo" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Espace Praticien
+                </div>
+            </div>
         </a>
-        <button id="logout-btn" class="logout-btn">Déconnexion</button>
+        
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/blog.html">Voir le Blog</a></li>
+                <li id="auth-nav-item">
+                    </li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="dashboard-container" style="margin-top: 100px;">
-        <div class="dashboard-header">
-            <h1>Rendez-vous Patients</h1>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="exportToCSV()" class="pay-btn" style="background: #27ae60; border-color: #27ae60; width: auto; padding: 0.5rem 1.5rem;">📄 Export Compta (.csv)</button>
-                <button onclick="loadAppointments()" class="pay-btn" style="width: auto; padding: 0.5rem 1.5rem;">Actualiser</button>
+    <main class="admin-container">
+        <div class="dashboard-controls">
+            <h1 style="color: var(--gold-accent); font-family: 'Georgia', serif;">Gestion du Cabinet</h1>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <input type="text" id="search-input" class="vip-input" placeholder="🔍 Rechercher un patient..." style="max-width: 300px; margin-bottom: 0;">
+                <button id="refresh-btn" class="refresh-btn">🔄 Actualiser</button>
+                <button onclick="exportToCSV()" class="refresh-btn" style="background: #27ae60;">📊 Export Compta</button>
             </div>
         </div>
 
-        <!-- SECTION STATISTIQUES (KPI) -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>En Attente</h3>
-                <p id="stat-pending" class="stat-number">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Confirmés</h3>
-                <p id="stat-confirmed" class="stat-number">0</p>
-            </div>
-            <div class="stat-card">
-                <h3>Total Patients</h3>
-                <p id="stat-total" class="stat-number">0</p>
-            </div>
-        </div>
-
-        <!-- FILTRES -->
-        <div class="filter-container" id="filter-buttons">
-            <button class="filter-btn active" onclick="filterAppointments('all')">Tous</button>
-            <button class="filter-btn" onclick="filterAppointments('en_attente')">En attente</button>
-            <button class="filter-btn" onclick="filterAppointments('confirme')">Confirmés</button>
-            <button class="filter-btn" onclick="filterAppointments('termine')">Terminés</button>
-        </div>
-
-        <!-- SECTION BLOG ADMIN -->
-        <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 2rem; border-left: 4px solid var(--gold-accent);">
-            <h2 style="margin-bottom: 1rem; color: var(--gold-accent);">Publier un Article</h2>
+        <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 3rem; border-top: 4px solid var(--gold-accent);">
+            <h2 style="margin-bottom: 1.5rem; color: var(--gold-accent); font-family: 'Georgia', serif;">✍️ Gestion des Actualités</h2>
             <form id="blog-form">
                 <input type="hidden" id="article-id">
-                <input type="text" id="article-title" class="vip-input" placeholder="Titre de l'article" required>
-                <input type="file" id="article-image" class="vip-input" accept="image/*">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <input type="text" id="article-title" class="vip-input" placeholder="Titre de l'article" required>
+                    <input type="file" id="article-image" class="vip-input" accept="image/*">
+                </div>
                 <textarea id="article-content" class="vip-input" rows="4" placeholder="Contenu de l'article..." required></textarea>
                 <div style="display: flex; gap: 10px;">
-                    <button type="submit" id="submit-article-btn" class="pay-btn" style="width: auto;">Publier l'article</button>
-                    <button type="button" id="cancel-edit-btn" class="pay-btn" style="width: auto; background: #95a5a6; display: none;">Annuler</button>
+                    <button type="submit" id="submit-article-btn" class="refresh-btn">Publier l'article</button>
+                    <button type="button" id="cancel-edit-btn" class="refresh-btn" style="background: #95a5a6; display: none;">Annuler</button>
                 </div>
             </form>
-            <div id="admin-articles-list" style="margin-top: 2rem;">
-                <!-- Liste des articles pour suppression -->
-            </div>
+            <div id="admin-articles-list" style="margin-top: 2rem;"></div>
         </div>
 
-        <div class="table-responsive">
-            <table>
+        <h2 style="margin-bottom: 1.5rem; color: var(--gold-accent); font-family: 'Georgia', serif;">📅 File d'attente des patients</h2>
+        <div class="table-wrapper">
+            <table class="appointments-table">
                 <thead>
                     <tr>
-                        <th>Date / Heure RDV</th>
+                        <th>Date</th>
                         <th>Patient</th>
                         <th>Contact</th>
-                        <th>Dossier / Visio</th>
+                        <th>Docs/Visio</th>
                         <th>Motif</th>
-                        <th>Diagnostic (IA)</th>
+                        <th>Note</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody id="appointments-table-body">
-                    <!-- Les RDV seront insérés ici par JS -->
-                    <tr><td colspan="6" style="text-align:center;">Chargement...</td></tr>
+                    <tr><td colspan="7" style="text-align: center; padding: 3rem; opacity: 0.6;">Chargement des données sécurisées...</td></tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </main>
+
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Interface de gestion administrative et médicale. Accès strictement réservé au personnel autorisé.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Support Technique</h3>
+                <p>En cas de problème avec la plateforme, contactez votre administrateur système.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Espace Praticien Allo Kiné. Tous droits réservés.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
     <script>
-        // Gestion spécifique déconnexion
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = 'login.html';
+        document.addEventListener('DOMContentLoaded', async () => {
+            // --- VÉRIFIER L'AUTHENTIFICATION DOCTEUR/ADMIN ---
+            try {
+                const response = await fetch('/api/auth/verify', { credentials: 'include' });
+                const data = await response.json();
+                
+                // On accepte 'kine' ou 'admin'
+                if (!response.ok || (data.role !== 'kine' && data.role !== 'admin')) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            } catch (err) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Chargement des données via script.js
+            if (typeof loadAppointments === 'function') loadAppointments();
+            if (typeof loadAdminArticles === 'function') loadAdminArticles();
+        });
+
+        // Bouton rafraîchir
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            loadAppointments();
+            loadAdminArticles();
         });
     </script>
 </body>

@@ -4,45 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réinitialiser le mot de passe | ALLO KINÉ</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="/style.css">
+    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
     <style>
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; padding: 20px;}
-        .box { background: white; padding: 2.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; }
-        .vip-input { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .btn { background: var(--gold-accent); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; font-size: 1.1rem; transition: 0.3s; }
-        .btn:hover { background: #a68541; }
+        body { background-color: var(--bg-color); color: var(--text-color); }
+        
+        .reset-container { 
+            padding: 160px 5% 80px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 80vh;
+        }
+
+        .box { 
+            background: var(--card-bg); 
+            padding: 3rem; 
+            border-radius: 15px; 
+            box-shadow: var(--shadow-premium); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 450px; 
+            border-top: 5px solid var(--gold-accent);
+        }
+
+        .toggle-password {
+            position: absolute; 
+            right: 15px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <a href="index.html"><img src="logo.png" alt="Logo" style="width: 80px; border-radius: 50%;"></a>
-        <h2 style="color: var(--gold-accent); font-family: 'Georgia', serif; margin-bottom: 1.5rem;">Réinitialisation</h2>
-        <p>Entrez votre nouveau mot de passe.</p>
 
-        <!-- captcha -->
-        <div class="g-recaptcha" data-sitekey="6Lcq6XosAAAAAP2lPObTYKYxYhmNTgOb_x4XraCt" style="margin: 10px 0;"></div>
-
-        <form id="reset-form">
-            <div style="position: relative; margin: 10px 0;">
-                <input type="password" id="password" class="vip-input" placeholder="Nouveau mot de passe" required minlength="6">
-                <button type="button" class="toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #888; font-size: 1.2rem;">
-                    👁️
-                </button>
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Sécurité Compte
+                </div>
             </div>
-            <button type="submit" class="btn">Valider</button>
-        </form>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/login.html" class="nav-btn-gold">Se Connecter</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
 
-        <p id="msg" style="color: green; display: none; margin-top: 10px;"></p>
-        <p style="margin-top: 15px;"><a href="login.html" style="color: var(--gold-accent); font-weight: bold;">Retour à la connexion</a></p>
-    </div>
+    <main class="reset-container">
+        <div class="box reveal active">
+            <h2 style="color: var(--gold-accent); font-family: 'Georgia', serif; margin-bottom: 1rem;">Nouveau mot de passe</h2>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">Veuillez définir votre nouveau mot de passe sécurisé.</p>
+
+            <div class="g-recaptcha" data-sitekey="6Lcq6XosAAAAAP2lPObTYKYxYhmNTgOb_x4XraCt" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+
+            <form id="reset-form">
+                <div style="position: relative; margin-bottom: 20px;">
+                    <input type="password" id="password" class="vip-input" placeholder="Nouveau mot de passe" required minlength="6" style="margin: 0;">
+                    <button type="button" class="toggle-password" onclick="togglePassword('password')">👁️</button>
+                </div>
+                <button type="submit" class="pay-btn" style="width: 100%; border: none; cursor: pointer;">Confirmer la modification</button>
+            </form>
+
+            <p id="msg" style="color: #27ae60; display: none; margin-top: 15px; font-weight: bold;"></p>
+            
+            <p style="margin-top: 25px;">
+                <a href="/login.html" style="color: var(--gold-accent); font-weight: bold; text-decoration: none;">← Retour à la connexion</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Protection de vos données et accès sécurisé à vos informations de santé.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Allo Kiné. Sécurité renforcée par reCAPTCHA.</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
 
     <script>
         // --- AFFICHAGE/MASQUAGE MOT DE PASSE ---
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
-            const button = event.target;
+            const button = event.currentTarget;
             if (input.type === 'password') {
                 input.type = 'text';
                 button.textContent = '🙈';
@@ -61,22 +126,32 @@
             e.preventDefault();
             const password = document.getElementById('password').value;
             const token = getQueryParam('token');
-            const recaptchaToken = grecaptcha ? grecaptcha.getResponse() : null;
+            const recaptchaToken = (typeof grecaptcha !== 'undefined') ? grecaptcha.getResponse() : null;
+
+            if (!token) {
+                alert("Lien de réinitialisation invalide ou expiré.");
+                return;
+            }
+
             try {
                 const res = await fetch('/api/auth/reset', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token, password, recaptchaToken })
                 });
+                
                 const data = await res.json();
+                
                 if (res.ok) {
-                    document.getElementById('msg').textContent = data.msg || 'Mot de passe changé.';
+                    document.getElementById('msg').textContent = "Mot de passe modifié avec succès !";
                     document.getElementById('msg').style.display = 'block';
+                    document.getElementById('reset-form').style.display = 'none';
+                    setTimeout(() => { window.location.href = '/login.html'; }, 3000);
                 } else {
                     alert(data.msg || 'Erreur lors de la réinitialisation.');
                 }
             } catch(err) {
-                alert('Erreur serveur.');
+                alert('Erreur serveur. Veuillez réessayer plus tard.');
             }
         });
     </script>

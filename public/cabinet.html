@@ -6,81 +6,133 @@
     <title>Le Cabinet & Équipements | ALLO KINÉ</title>
     <link rel="stylesheet" href="/style.css">
     <style>
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; border: 2px solid var(--gold-accent); height: 250px; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .cabinet-container { padding: 140px 5% 60px; max-width: 1200px; margin: 0 auto; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        
+        .gallery-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 15px; 
+            border: 1px solid var(--gold-accent); 
+            height: 300px; 
+            box-shadow: var(--shadow-premium);
+        }
+        
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .gallery-item:hover img { transform: scale(1.1); }
-        .gallery-caption { position: absolute; bottom: 0; background: rgba(10, 25, 47, 0.8); color: white; width: 100%; padding: 10px; text-align: center; }
+        
+        .gallery-caption { 
+            position: absolute; 
+            bottom: 0; 
+            background: linear-gradient(transparent, rgba(10, 25, 47, 0.9)); 
+            color: white; 
+            width: 100%; 
+            padding: 20px; 
+            text-align: center; 
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .tech-info {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 4rem;
+            border-left: 5px solid var(--gold-accent);
+        }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
-            <span class="brand-name">ALLO KINÉ</span>
+
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Plateau Technique
+                </div>
+            </div>
         </a>
+        
+        <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="contact.html">Prendre RDV</a></li>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html" style="color: var(--gold-accent);">Le Cabinet</a></li>
+                <li><a href="/competences.html">Expertise</a></li>
+                <li><a href="/blog.html">Actualités</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
 
-    <main style="margin-top: 120px; padding: 0 5%; margin-bottom: 4rem;">
+    <main class="cabinet-container">
         <section class="reveal active">
-            <h1 class="section-title" style="text-align: center; color: var(--gold-accent);">Un Espace Dédié à la Santé</h1>
-            <p style="text-align: center; max-width: 700px; margin: 1rem auto; opacity: 0.9;">
-                Situé au cœur de La Marsa, notre cabinet "VIP Body Center" est équipé des dernières technologies pour assurer une rééducation optimale dans un cadre moderne et hygiénique.
+            <h1 class="section-title" style="text-align: center; color: var(--gold-accent); font-family: 'Georgia', serif; font-size: 2.5rem;">Un Espace Dédié à la Santé</h1>
+            <p style="text-align: center; max-width: 800px; margin: 1.5rem auto; font-size: 1.1rem; opacity: 0.9; line-height: 1.8;">
+                Situé au cœur de La Marsa, notre cabinet <strong>"VIP Body Center"</strong> allie confort, discrétion et haute technologie. Nous mettons à votre disposition un environnement moderne conçu pour accélérer votre guérison.
             </p>
 
             <div class="gallery-grid">
-                <!-- Remplacez les src par vos vraies photos -->
                 <div class="gallery-item">
-                    <img src="phototerrain.jpg" alt="Salle de rééducation">
-                    <div class="gallery-caption">Plateau Technique</div>
+                    <img src="/phototerrain.jpg" alt="Plateau Technique">
+                    <div class="gallery-caption">Espace Rééducation Sportive</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Salle de massage">
-                    <div class="gallery-caption">Espace Soins Manuels</div>
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800" alt="Salle de soin">
+                    <div class="gallery-caption">Cabine de Soins Individuels</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Équipement Sportif">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800" alt="Musculation">
                     <div class="gallery-caption">Renforcement Musculaire</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Technologie">
-                    <div class="gallery-caption">Électrothérapie & Ultrasons</div>
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800" alt="Physiothérapie">
+                    <div class="gallery-caption">Physiothérapie & Ondes de Choc</div>
                 </div>
+            </div>
+
+            <div class="tech-info reveal">
+                <h2 style="color: var(--gold-accent); margin-bottom: 1rem;">Technologies de Pointe</h2>
+                <p style="line-height: 1.8;">
+                    Le Dr Ghraybia utilise des équipements de dernière génération pour des résultats visibles dès les premières séances : 
+                    <strong>EMS X-Body</strong> (électrostimulation sans fil), <strong>Pressothérapie</strong>, <strong>Ultrasons</strong> et 
+                    <strong>Thérapie Manuelle</strong> avancée. Notre engagement est de vous offrir le meilleur de la science au service de votre mobilité.
+                </p>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>ALLO KINÉ</h3>
-                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe à La Marsa.</p>
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>L'excellence de la rééducation à votre service. Des soins personnalisés pour retrouver votre pleine mobilité.</p>
             </div>
-            <div class="footer-column">
-                <h4>Liens Rapides</h4>
-                <ul class="footer-links">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="competences.html">Soins & Tarifs</a></li>
-                    <li><a href="cabinet.html">Le Cabinet</a></li>
-                    <li><a href="contact.html">Prendre RDV</a></li>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="/cabinet.html">Le Cabinet</a></li>
+                    <li><a href="/competences.html">Soins & Tarifs</a></li>
+                    <li><a href="/blog.html">Blog Santé</a></li>
+                    <li><a href="/contact.html">Prendre RDV</a></li>
                 </ul>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <p>📍 Rue Errazi, La Marsa<br>(VIP Body Center)</p>
+            <div class="footer-col">
+                <h3>Contact & Accès</h3>
+                <p>📍 Rue Errazi, La Marsa (VIP Body Center)</p>
                 <p>📞 +216 98 56 15 86</p>
+                <p>✉️ contact@allokine.fr</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 ALLO KINÉ. Tous droits réservés. Excellence & Santé.</p>
+            <p>&copy; 2026 Allo Kiné. Design Signature par Omar Ghraybia.</p>
         </div>
     </footer>
-    <script src="script.js"></script>
+
+    <script src="/script.js"></script>
 </body>
 </html>

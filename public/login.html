@@ -3,45 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Docteur - Allo Kiné</title>
+    <title>Connexion | ALLO KINÉ</title>
+    
     <link rel="stylesheet" href="/style.css">
+    
     <style>
-        .login-container {
-            min-height: 100vh;
+        body { background-color: var(--bg-color); color: var(--text-color); }
+        
+        .login-container { 
+            padding: 160px 5% 80px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 80vh;
+        }
+
+        .login-box { 
+            background: var(--card-bg); 
+            padding: 3rem; 
+            border-radius: 15px; 
+            box-shadow: var(--shadow-premium); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 450px; 
+            border-top: 5px solid var(--gold-accent);
+        }
+
+        .login-box h2 { 
+            color: var(--gold-accent); 
+            font-family: 'Georgia', serif; 
+            margin-bottom: 1.5rem; 
+            font-size: 2rem;
+        }
+
+        .auth-links {
+            margin-top: 25px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-color);
+            flex-direction: column;
+            gap: 12px;
         }
-        .login-box {
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow-premium);
-            width: 100%;
-            max-width: 400px;
-            border-top: 4px solid var(--gold-accent);
+
+        .auth-links a {
+            color: var(--gold-accent);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: 0.3s;
         }
-        .login-box h2 { text-align: center; margin-bottom: 2rem; color: var(--gold-accent); }
-        .btn-full { width: 100%; margin-top: 1rem; }
+        .auth-links a:hover { opacity: 0.7; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Espace Docteur</h2>
+
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Espace Sécurisé
+                </div>
+            </div>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/register.html" class="nav-btn-gold">S'inscrire</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <div class="login-box reveal active">
+            <h2>Connexion</h2>
+            <p style="opacity: 0.8; margin-bottom: 2rem;">Accédez à votre suivi personnalisé.</p>
+
             <form id="login-form">
-                <div style="margin-bottom: 1rem;">
-                    <input type="email" id="email" class="vip-input" placeholder="Email" required>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required>
-                </div>
-                <button type="submit" class="pay-btn btn-full">Se connecter</button>
+                <input type="email" id="email" class="vip-input" placeholder="Adresse Email" required style="margin-bottom: 15px;">
+                <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required style="margin-bottom: 20px;">
+                
+                <button type="submit" class="pay-btn" style="width: 100%; border: none; cursor: pointer;">
+                    Se connecter
+                </button>
             </form>
-            <p style="text-align: center; margin-top: 1rem;"><a href="index.html">Retour au site</a></p>
+
+            <div class="auth-links">
+                <a href="/forgot-password.html">Mot de passe oublié ?</a>
+                <a href="/register.html">Nouveau patient ? Créer un compte</a>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
+    </main>
+
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Votre portail de santé confidentiel. Gérez vos séances et communiquez avec votre cabinet en toute sécurité.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Allo Kiné. Protection des données assurée.</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+
+    <script>
+        // Utilisation de la fonction handleLogin définie dans script.js
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Appel de la fonction globale
+            if (typeof handleLogin === 'function') {
+                await handleLogin(email, password);
+            } else {
+                console.error("Erreur : handleLogin n'est pas chargé.");
+            }
+        });
+
+        // Redirection si déjà connecté
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('token')) {
+                const role = localStorage.getItem('role');
+                window.location.href = (role === 'kine' || role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
+            }
+        });
+    </script>
 </body>
 </html>

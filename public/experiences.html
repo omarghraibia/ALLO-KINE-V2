@@ -5,12 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expertise & Parcours | ALLO KINÉ</title>
     <link rel="stylesheet" href="/style.css">
+    <style>
+        .exp-container { padding: 140px 5% 50px; min-height: 80vh; max-width: 1200px; margin: 0 auto; }
+        .expertise-card { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 3rem; 
+            align-items: center; 
+            background: var(--card-bg); 
+            padding: 3.5rem; 
+            border-radius: 20px; 
+            box-shadow: var(--shadow-premium);
+            border: 1px solid var(--border-color);
+        }
+        .expertise-image-container { flex: 1; min-width: 300px; text-align: center; }
+        .expertise-text { flex: 2; min-width: 300px; }
+        .expertise-text h1 { font-size: 2.5rem; color: var(--gold-accent); margin-bottom: 1.5rem; }
+        .expertise-text h2 { font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--nav-bg); }
+        .expertise-badge { 
+            display: inline-block; 
+            padding: 5px 15px; 
+            background: rgba(197, 160, 89, 0.1); 
+            color: var(--gold-accent); 
+            border-radius: 20px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            font-size: 0.8rem; 
+            margin-bottom: 1.5rem;
+        }
+        .expertise-list { 
+            background: var(--bg-color); 
+            padding: 2rem; 
+            border-left: 4px solid var(--gold-accent); 
+            border-radius: 10px; 
+            margin-top: 2rem; 
+        }
+        .expertise-list li { margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
+        
+        @media (max-width: 768px) { .expertise-card { padding: 2rem; } .expertise-text h1 { font-size: 2rem; } }
+    </style>
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
             <div style="display: flex; flex-direction: column; justify-content: center;">
                 <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
                 <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
@@ -21,116 +60,79 @@
         
         <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="competences.html">Nos Soins & Tarifs</a></li>
-                <li><a href="experiences.html" style="color: var(--gold-accent);">Expertise</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                
-                <li id="nav-login"><a href="login.html" style="color: var(--gold-accent);">Se connecter</a></li>
-                <li id="nav-register"><a href="register.html" style="background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px;">S'inscrire</a></li>
-                
-                <li id="nav-dashboard" style="display: none;"><a href="#" id="dashboard-link" style="color: var(--gold-accent); font-weight: bold;">Mon Espace</a></li>
-                <li id="nav-logout" style="display: none;"><a href="#" id="logout-btn-nav" style="color: #ff4757;">Déconnexion</a></li>
-                
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html">Le Cabinet</a></li>
+                <li><a href="/competences.html">Soins & Tarifs</a></li>
+                <li><a href="/blog.html">Actualités</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
                 <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
 
-    <main style="margin-top: 120px; padding: 0 5%; min-height: 80vh;">
-        <section class="reveal active" style="max-width: 1000px; margin: 0 auto;">
-            <h1 class="section-title" style="text-align: center; margin-bottom: 3rem; font-family: 'Georgia', serif; color: var(--gold-accent);">L'Expertise d'un Spécialiste</h1>
+    <main class="exp-container">
+        <div class="expertise-card reveal active">
             
-            <div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: center; background: var(--card-bg); padding: 3rem; border-radius: 15px; box-shadow: var(--shadow-premium);">
+            <div class="expertise-image-container">
+                <img src="/phototerrain.jpg" alt="Dr Fethi Ghraybia" style="width: 100%; max-width: 400px; border-radius: 15px; border: 5px solid var(--gold-accent); box-shadow: var(--shadow-premium);">
+            </div>
+
+            <div class="expertise-text">
+                <span class="expertise-badge">Expertise Médicale</span>
+                <h1>L'Expertise d'un Spécialiste</h1>
+                <h2>Dr Fethi Ghraybia</h2>
+                <h4 style="color: var(--gold-accent); margin-bottom: 2rem; font-weight: normal; letter-spacing: 1px;">Kinésithérapeute D.E & Spécialiste du Sport</h4>
                 
-                <div style="flex: 1; min-width: 300px; text-align: center;">
-                    <img src="phototerrain.jpg" alt="Dr Fethi Ghraybia" style="width: 100%; max-width: 350px; border-radius: 10px; border: 4px solid var(--gold-accent); box-shadow: var(--shadow-light);">
-                </div>
+                <p style="margin-bottom: 1.5rem; line-height: 1.8; opacity: 0.9; font-size: 1.1rem;">
+                    Avec plus de <strong>25 ans d'expérience</strong> dans la rééducation fonctionnelle et sportive, le cabinet ALLO KINÉ s'impose comme une référence d'excellence. 
+                </p>
+                <p style="margin-bottom: 1.5rem; line-height: 1.8; opacity: 0.9; font-size: 1.1rem;">
+                    Fort de <strong>17 années de pratique internationale</strong>, le Dr Ghraybia accompagne les athlètes de haut niveau et traite les traumatologies complexes en intégrant les dernières innovations comme l'EMS X-Body.
+                </p>
 
-                <div style="flex: 2; min-width: 300px;">
-                    <h2 style="font-family: 'Georgia', serif; margin-bottom: 1rem; color: var(--nav-bg);">Dr Fethi Ghraybia</h2>
-                    <h4 style="color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem;">Kinésithérapeute D.E & Spécialiste du Sport</h4>
-                    
-                    <p style="margin-bottom: 1.5rem; line-height: 1.8; opacity: 0.9;">
-                        Avec plus de <strong>25 ans d'expérience</strong> dans le domaine de la rééducation fonctionnelle et sportive, le cabinet ALLO KINÉ met un point d'honneur à offrir des soins d'excellence. 
-                    </p>
-                    <p style="margin-bottom: 1.5rem; line-height: 1.8; opacity: 0.9;">
-                        Fort de <strong>17 années de pratique à l'international</strong>, le Dr Ghraybia a développé une expertise pointue dans l'accompagnement des athlètes, la traumatologie sévère et l'intégration des nouvelles technologies médicales comme l'EMS X-Body.
-                    </p>
-
-                    <div style="background: var(--bg-color); padding: 1.5rem; border-left: 4px solid var(--gold-accent); border-radius: 5px; margin-top: 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Domaines de prédilection :</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">✦ Rééducation des blessures sportives (LCA, entorses, déchirures)</li>
-                            <li style="margin-bottom: 0.5rem;">✦ Traumatologie post-opératoire</li>
-                            <li style="margin-bottom: 0.5rem;">✦ Rééducation neurologique et respiratoire</li>
-                            <li style="margin-bottom: 0.5rem;">✦ Thérapies manuelles et Hijama</li>
-                        </ul>
-                    </div>
+                <div class="expertise-list">
+                    <h3 style="margin-bottom: 1.5rem; font-family: 'Georgia', serif; color: var(--nav-bg);">Domaines de spécialisation :</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><span style="color:var(--gold-accent);">✦</span> Blessures sportives (LCA, entorses, déchirures)</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Traumatologie post-opératoire & rééducation lourde</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Rééducation neurologique & respiratoire</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Thérapies manuelles avancées & Hijama</li>
+                    </ul>
                 </div>
             </div>
-        </section>
+
+        </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>ALLO KINÉ</h3>
-                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe à La Marsa.</p>
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>L'excellence de la rééducation à votre service. Des soins personnalisés pour retrouver votre pleine mobilité et une vie active.</p>
             </div>
-            <div class="footer-column">
-                <h4>Liens Rapides</h4>
-                <ul class="footer-links">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="competences.html">Soins & Tarifs</a></li>
-                    <li><a href="cabinet.html">Le Cabinet</a></li>
-                    <li><a href="contact.html">Prendre RDV</a></li>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="/cabinet.html">Le Cabinet</a></li>
+                    <li><a href="/competences.html">Soins & Tarifs</a></li>
+                    <li><a href="/blog.html">Actualités</a></li>
+                    <li><a href="/faq.html">FAQ</a></li>
                 </ul>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <p>📍 Rue Errazi, La Marsa<br>(VIP Body Center)</p>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p>📍 Rue Errazi, La Marsa (VIP Body Center)</p>
                 <p>📞 +216 98 56 15 86</p>
+                <p>✉️ contact@allokine.fr</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 ALLO KINÉ. Tous droits réservés. Excellence & Santé.</p>
+            <p>&copy; 2026 Allo Kiné. Design Signature par Omar Ghraybia.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script>
-        // SCRIPT DE LA NAVBAR INTELLIGENTE
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const response = await fetch('/api/auth/verify', {
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('nav-login').style.display = 'none';
-                    document.getElementById('nav-register').style.display = 'none';
-                    document.getElementById('nav-dashboard').style.display = 'inline-block';
-                    document.getElementById('nav-logout').style.display = 'inline-block';
-                    
-                    const dashboardLink = document.getElementById('dashboard-link');
-                    dashboardLink.href = data.role === 'admin' ? 'admin.html' : 'espace-patient.html';
-                    
-                    document.getElementById('logout-btn-nav').addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        await fetch('/api/auth/logout', {
-                            method: 'POST',
-                            credentials: 'include'
-                        });
-                        window.location.href = 'index.html';
-                    });
-                }
-            } catch (err) {
-                console.log('Utilisateur non connecté');
-            }
-        });
-    </script>
+    <script src="/script.js"></script>
 </body>
 </html>

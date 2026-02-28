@@ -4,92 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte | ALLO KINÉ</title>
+    
     <link rel="stylesheet" href="/style.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; padding: 20px;}
-        .register-box { background: white; padding: 2.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
-        .vip-input { display: block; width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .register-btn { background: var(--gold-accent); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; font-size: 1.1rem; transition: 0.3s; }
-        .register-btn:hover { background: #a68541; }
-        .divider { display: flex; align-items: center; margin: 20px 0; color: #888; font-size: 0.9rem;}
-        .divider::before, .divider::after { content: ""; flex: 1; border-bottom: 1px solid #ddd; }
-        .divider:not(:empty)::before { margin-right: .5em; }
-        .divider:not(:empty)::after { margin-left: .5em; }
-        .google-btn-container { display: flex; justify-content: center; margin-bottom: 10px; }
-    </style>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-</head>
-<body>
-    <div class="register-box">
-        <a href="index.html">
-            <img src="logo.png" alt="Logo" style="width: 60px; border-radius: 50%;">
-        </a>
-        <h2 style="color: var(--gold-accent); font-family: 'Georgia', serif;">Rejoindre ALLO KINÉ</h2>
-        <p style="margin-bottom: 20px; color: #555;">Créez votre compte pour suivre vos rendez-vous.</p>
+        body { background-color: var(--bg-color); color: var(--text-color); }
         
-        <div id="g_id_onload"
-             data-client_id="578242212397-v34arne4usmt6ca4hvccmjem52e4oij0.apps.googleusercontent.com"
-             data-context="signup"
-             data-ux_mode="popup"
-             data-callback="handleGoogleLogin"
-             data-auto_prompt="false">
-        </div>
-        <div class="google-btn-container">
-            <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signup_with" data-size="large" data-logo_alignment="left" data-width="350"></div>
-        </div>
-
-        <div class="divider">OU AVEC EMAIL</div>
-
-        <!-- reCAPTCHA v2 widget -->
-        <div class="g-recaptcha" data-sitekey="6Lcq6XosAAAAAP2lPObTYKYxYhmNTgOb_x4XraCt" style="margin: 10px 0;"></div>
-
-        <form id="register-form">
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="nom" class="vip-input" placeholder="Votre Nom" required>
-                <input type="text" id="prenom" class="vip-input" placeholder="Votre Prénom" required>
-            </div>
-            <input type="tel" id="telephone" class="vip-input" placeholder="Numéro de téléphone" required>
-            <input type="email" id="email" class="vip-input" placeholder="Adresse Email" required>
-            <div style="position: relative; margin: 10px 0;">
-                <input type="password" id="password" class="vip-input" placeholder="Mot de passe (min 6 caractères)" required minlength="6">
-                <button type="button" class="toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #888; font-size: 1.2rem;">
-                    👁️
-                </button>
-            </div>
-            
-            <button type="submit" class="register-btn">Créer mon compte</button>
-        </form>
-        <p style="margin-top: 15px;">Déjà un compte ? <a href="login.html" style="color: var(--gold-accent); font-weight: bold;">Se connecter</a></p>
-    </div>
-
-    <script>
-        // --- 0. AFFICHAGE/MASQUAGE MOT DE PASSE ---
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const button = event.target;
-            if (input.type === 'password') {
-                input.type = 'text';
-                button.textContent = '🙈';
-            } else {
-                input.type = 'password';
-                button.textContent = '👁️';
-            }
+        .register-container { 
+            padding: 160px 5% 80px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 80vh;
         }
 
-        // --- 1. INSCRIPTION CLASSIQUE CORRIGÉE ---
+        .register-box { 
+            background: var(--card-bg); 
+            padding: 3rem; 
+            border-radius: 15px; 
+            box-shadow: var(--shadow-premium); 
+            text-align: center; 
+            width: 100%; 
+            max-width: 500px; 
+            border-top: 5px solid var(--gold-accent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        .login-link {
+            margin-top: 20px;
+            display: block;
+            color: var(--gold-accent);
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .login-link:hover { opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Inscription Patient
+                </div>
+            </div>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/login.html" class="nav-btn-gold">Se Connecter</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="register-container">
+        <div class="register-box reveal active">
+            <h2 style="color: var(--gold-accent); font-family: 'Georgia', serif; margin-bottom: 1rem;">Nouveau Patient</h2>
+            <p style="opacity: 0.8; margin-bottom: 2.5rem;">Créez votre compte pour gérer vos soins et RDV.</p>
+
+            <form id="register-form">
+                <div class="form-grid">
+                    <input type="text" id="nom" class="vip-input" placeholder="Nom" required>
+                    <input type="text" id="prenom" class="vip-input" placeholder="Prénom" required>
+                </div>
+                
+                <input type="email" id="email" class="vip-input" placeholder="Adresse Email" required>
+                <input type="tel" id="telephone" class="vip-input" placeholder="Téléphone">
+                
+                <div style="position: relative; margin-bottom: 20px;">
+                    <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required minlength="6">
+                </div>
+
+                <button type="submit" class="pay-btn" style="width: 100%; border: none; cursor: pointer;">
+                    Créer mon compte
+                </button>
+            </form>
+
+            <a href="/login.html" class="login-link">Déjà inscrit ? Connectez-vous ici</a>
+        </div>
+    </main>
+
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>L'excellence médicale à votre portée. Rejoignez notre plateforme pour un suivi de santé personnalisé.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Allo Kiné. Tous vos soins en un clic.</p>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+
+    <script>
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+
             const userData = {
                 nom: document.getElementById('nom').value,
                 prenom: document.getElementById('prenom').value,
-                telephone: document.getElementById('telephone').value,
                 email: document.getElementById('email').value,
+                telephone: document.getElementById('telephone').value,
                 password: document.getElementById('password').value
             };
-            // récupérer jeton reCAPTCHA
-            const recaptchaToken = grecaptcha ? grecaptcha.getResponse() : null;
-            if (recaptchaToken) userData.recaptchaToken = recaptchaToken;
 
             try {
                 const response = await fetch('/api/auth/register', {
@@ -101,39 +136,24 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert('Compte créé avec succès !');
-                    // le cookie gère désormais le token; on ne le stocke plus en localStorage
-                    localStorage.setItem('role', data.role);
-                    window.location.href = 'espace-patient.html';
+                    alert("Inscription réussie ! Vous allez être redirigé vers la page de connexion.");
+                    window.location.href = '/login.html';
                 } else {
-                    alert('Erreur: ' + (data.msg || "Vérifiez vos informations."));
+                    alert("Erreur : " + (data.message || "Impossible de créer le compte."));
                 }
             } catch (error) {
-                alert('Erreur de connexion au serveur.');
+                console.error("Erreur inscription:", error);
+                alert("Erreur serveur. Veuillez réessayer plus tard.");
             }
         });
 
-        // --- 2. INSCRIPTION VIA GOOGLE ---
-        async function handleGoogleLogin(response) {
-            try {
-                const res = await fetch('/api/auth/google', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: response.credential })
-                });
-                
-                const data = await res.json();
-                if (res.ok) {
-                    // token géré par cookie
-                    localStorage.setItem('role', data.role);
-                    window.location.href = 'espace-patient.html';
-                } else {
-                    alert("Erreur avec Google.");
-                }
-            } catch (error) {
-                alert("Erreur serveur lors de la connexion Google.");
+        // Rediriger si déjà connecté
+        window.onload = () => {
+            if (localStorage.getItem('token')) {
+                const role = localStorage.getItem('role');
+                window.location.href = (role === 'kine' || role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
             }
-        }
+        };
     </script>
 </body>
 </html>

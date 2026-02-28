@@ -4,15 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nos Soins & Tarifs | ALLO KINÉ</title>
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0A192F">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <meta name="description" content="Cabinet de kinésithérapie ALLO KINÉ à La Marsa (Tunis). Tarifs, bilans en ligne et programmes de rééducation sportive et fonctionnelle.">
-    <meta name="keywords" content="kiné La Marsa, tarifs kiné Tunis, rééducation sportive, programme dos sans douleur, physiothérapie, soins à domicile">
-    <meta property="og:title" content="ALLO KINÉ | Nos Soins & Tarifs">
-    <meta property="og:description" content="Découvrez nos tarifs pour les bilans visio et les programmes de rééducation.">
-    <meta property="og:image" content="phototerrain.jpg">
-    <meta property="og:url" content="https://allokine.netlify.app/competences.html"> 
+    <meta name="description" content="Cabinet de kinésithérapie ALLO KINÉ à La Marsa (Tunis). Tarifs, bilans en ligne et programmes de rééducation.">
     
     <link rel="stylesheet" href="/style.css">
     
@@ -20,74 +13,69 @@
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
             <div style="display: flex; flex-direction: column; justify-content: center;">
                 <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
                 <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
-                    Dr Fethi Ghraybia
+                    Soins & Tarifs
                 </div>
             </div>
         </a>
         
         <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="competences.html">Nos Soins & Tarifs</a></li>
-                <li><a href="experiences.html">Expertise</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                
-                <li id="nav-login"><a href="login.html" style="color: var(--gold-accent);">Se connecter</a></li>
-                <li id="nav-register"><a href="register.html" style="background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px;">S'inscrire</a></li>
-                
-                <li id="nav-dashboard" style="display: none;"><a href="#" id="dashboard-link" style="color: var(--gold-accent); font-weight: bold;">Mon Espace</a></li>
-                <li id="nav-logout" style="display: none;"><a href="#" id="logout-btn-nav" style="color: #ff4757;">Déconnexion</a></li>
-                
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html">Le Cabinet</a></li>
+                <li><a href="/experiences.html">Expertise</a></li>
+                <li><a href="/blog.html">Actualités</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
                 <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
 
-    <main style="margin-top: 120px; padding: 0 5%;">
-        <section class="section-padding reveal">
-            <h1 class="section-title" style="text-align: center; margin-bottom: 4rem; font-family: 'Georgia', serif; color: var(--gold-accent);">Nos Domaines d'Intervention</h1>
+    <main style="margin-top: 140px; padding: 0 5%;">
+        <section class="reveal active">
+            <h1 class="section-title" style="text-align: center; margin-bottom: 4rem; font-family: 'Georgia', serif; color: var(--gold-accent); font-size: 2.5rem;">Nos Domaines d'Intervention</h1>
             
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Rééducation Sportive 🏃‍♂️</h3>
-                    <p>Spécialisation en médecine du sport pour une récupération rapide et une optimisation des performances athlétiques.</p>
+                    <p>Spécialisation en médecine du sport pour une récupération rapide et une optimisation des performances athlétiques de haut niveau.</p>
                 </div>
                 <div class="service-card">
                     <h3>Pathologies Osseuses 🦴</h3>
-                    <p>Prise en charge experte en Traumatologie et Rhumatologie pour soulager vos douleurs articulaires et musculaires.</p>
+                    <p>Prise en charge experte en Traumatologie et Rhumatologie pour soulager durablement vos douleurs articulaires.</p>
                 </div>
                 <div class="service-card">
                     <h3>Neurologie & Respiration 🧠</h3>
-                    <p>Rééducation ciblée des troubles neurologiques et amélioration des capacités respiratoires.</p>
+                    <p>Rééducation ciblée des troubles neurologiques complexes et amélioration des capacités respiratoires post-opératoires.</p>
                 </div>
                 <div class="service-card">
-                    <h3>Bien-être Tech ✨</h3>
-                    <p>Intégration des technologies du centre : X-Body EMS et amincissement médicalisé pour une santé globale.</p>
+                    <h3>Bien-être & Technologie ✨</h3>
+                    <p>Profitez des dernières innovations : X-Body EMS et amincissement médicalisé pour une santé globale et durable.</p>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding reveal" style="margin-top: 4rem;">
-            <h2 class="section-title" style="text-align: center; margin-bottom: 3rem; font-family: 'Georgia', serif;">Services en Ligne & Programmes</h2>
+        <section style="margin-top: 6rem; margin-bottom: 4rem;" class="reveal active">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 3rem; font-family: 'Georgia', serif; font-size: 2rem;">Services en Ligne & Programmes</h2>
             
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <h3>Bilan Visio / Téléphonique</h3>
                     <div class="price">50 <span class="currency">TND</span></div>
-                    <p>Consultation de 30 min pour évaluer vos douleurs et poser un pré-diagnostic.</p>
+                    <p>Consultation de 30 min pour évaluer vos douleurs et poser un pré-diagnostic médical.</p>
                     <ul style="list-style: none; margin: 1.5rem 0; text-align: left; opacity: 0.9;">
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Écoute active et conseils</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Exercices d'urgence</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Orientation thérapeutique</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Conseils personnalisés</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Exercices d'urgence</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Orientation spécialisée</li>
                     </ul>
-                    <a href="https://wa.me/21698561586?text=Bonjour,..." target="_blank" class="pay-btn" style="text-align: center; display: block; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
+                    <a href="https://wa.me/21698561586" target="_blank" class="pay-btn" style="text-align: center; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
                     <div id="paypal-button-bilan"></div>
                 </div>
 
@@ -95,94 +83,75 @@
                     <div class="badge">Recommandé</div>
                     <h3>Programme Dos Sans Douleur</h3>
                     <div class="price">120 <span class="currency">TND</span></div>
-                    <p>Plan de rééducation complet (4 semaines) avec vidéos à faire chez soi.</p>
+                    <p>Plan de rééducation complet de 4 semaines avec vidéos HD pour pratiquer chez vous.</p>
                     <ul style="list-style: none; margin: 1.5rem 0; text-align: left; opacity: 0.9;">
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Programme PDF détaillé</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Accès aux vidéos privées</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Suivi par email (1 mois)</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Programme PDF détaillé</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Accès vidéos privées</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Suivi par email inclus</li>
                     </ul>
-                    <a href="https://wa.me/21698561586?text=Bonjour,..." target="_blank" class="pay-btn" style="text-align: center; display: block; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
+                    <a href="https://wa.me/21698561586" target="_blank" class="pay-btn" style="text-align: center; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
                     <div id="paypal-button-dos"></div>
                 </div>
 
                 <div class="pricing-card">
-                    <h3>Reprise Sportive (Post-Blessure)</h3>
+                    <h3>Reprise Sportive</h3>
                     <div class="price">180 <span class="currency">TND</span></div>
-                    <p>Protocole intensif pour athlètes souhaitant reprendre le terrain.</p>
+                    <p>Protocole intensif post-blessure pour athlètes souhaitant reprendre la compétition.</p>
                     <ul style="list-style: none; margin: 1.5rem 0; text-align: left; opacity: 0.9;">
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Exercices proprioceptifs</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> Renforcement musculaire</li>
-                        <li><strong style="color:var(--gold-accent);">✦</strong> 1 Bilan visio inclus</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Exercices proprioceptifs</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> Renforcement spécifique</li>
+                        <li><span style="color:var(--gold-accent);">✦</span> 1 Bilan visio offert</li>
                     </ul>
-                    <a href="https://wa.me/21698561586?text=Bonjour,..." target="_blank" class="pay-btn" style="text-align: center; display: block; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
+                    <a href="https://wa.me/21698561586" target="_blank" class="pay-btn" style="text-align: center; margin-bottom: 1rem; background: #2C3E50; border: 1px solid var(--gold-accent); color: white;">📱 Payer par D17 / Virement</a>
                     <div id="paypal-button-sport"></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>ALLO KINÉ</h3>
-                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe à La Marsa.</p>
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe. Une approche sur-mesure pour votre santé.</p>
             </div>
-            <div class="footer-column">
-                <h4>Liens Rapides</h4>
-                <ul class="footer-links">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="competences.html">Soins & Tarifs</a></li>
-                    <li><a href="cabinet.html">Le Cabinet</a></li>
-                    <li><a href="contact.html">Prendre RDV</a></li>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="/cabinet.html">Le Cabinet</a></li>
+                    <li><a href="/experiences.html">Expertise</a></li>
+                    <li><a href="/blog.html">Conseils Santé</a></li>
+                    <li><a href="/contact.html">Prendre RDV</a></li>
                 </ul>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <p>📍 Rue Errazi, La Marsa<br>(VIP Body Center)</p>
+            <div class="footer-col">
+                <h3>Accès Direct</h3>
+                <p>📍 Rue Errazi, La Marsa, Tunis<br>(VIP Body Center)</p>
                 <p>📞 +216 98 56 15 86</p>
+                <p>✉️ contact@allokine.fr</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 ALLO KINÉ. Tous droits réservés. Excellence & Santé.</p>
+            <p>&copy; 2026 ALLO KINÉ. Design Signature par Omar Ghraybia.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
     <script>
-        // SCRIPT DE LA NAVBAR INTELLIGENTE
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('token');
-            const role = localStorage.getItem('role');
-            if (token) {
-                document.getElementById('nav-login').style.display = 'none';
-                document.getElementById('nav-register').style.display = 'none';
-                document.getElementById('nav-dashboard').style.display = 'inline-block';
-                document.getElementById('nav-logout').style.display = 'inline-block';
-                const dashboardLink = document.getElementById('dashboard-link');
-                dashboardLink.href = role === 'admin' ? 'admin.html' : 'espace-patient.html';
-                document.getElementById('logout-btn-nav').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    window.location.href = 'index.html';
-                });
-            }
-        });
-
-        // 1. Boutons PayPal
+        // Boutons PayPal - Les montants sont convertis approximativement en EUR pour le test
         paypal.Buttons({
             createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: '15.00' }, description: "Bilan Visio" }] }),
-            onApprove: (data, actions) => actions.order.capture().then(details => alert('Réussi !'))
+            onApprove: (data, actions) => actions.order.capture().then(details => alert('Paiement réussi ! Dr Ghraybia va vous contacter.'))
         }).render('#paypal-button-bilan');
 
         paypal.Buttons({
             createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: '36.00' }, description: "Programme Dos" }] }),
-            onApprove: (data, actions) => actions.order.capture().then(details => alert('Réussi !'))
+            onApprove: (data, actions) => actions.order.capture().then(details => alert('Paiement réussi ! Dr Ghraybia va vous contacter.'))
         }).render('#paypal-button-dos');
 
         paypal.Buttons({
             createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: '54.00' }, description: "Reprise Sportive" }] }),
-            onApprove: (data, actions) => actions.order.capture().then(details => alert('Réussi !'))
+            onApprove: (data, actions) => actions.order.capture().then(details => alert('Paiement réussi ! Dr Ghraybia va vous contacter.'))
         }).render('#paypal-button-sport');
     </script>
 </body>

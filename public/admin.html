@@ -10,93 +10,120 @@
     <style>
         /* Styles spécifiques pour l'interface d'administration */
         body { background-color: var(--bg-color); color: var(--text-color); }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: var(--nav-bg); border-bottom: 2px solid var(--gold-accent); }
-        .admin-container { padding: 3rem 5%; min-height: 80vh; }
-        .dashboard-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .admin-container { padding: 120px 5% 50px; min-height: 80vh; }
+        .dashboard-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 15px; }
         
         /* Design du tableau de données */
-        .table-wrapper { overflow-x: auto; background: var(--card-bg); border-radius: 10px; box-shadow: var(--shadow-premium); }
+        .table-wrapper { overflow-x: auto; background: var(--card-bg); border-radius: 10px; box-shadow: var(--shadow-premium); border: 1px solid var(--border-color); }
         .appointments-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .appointments-table th, .appointments-table td { padding: 1.2rem; border-bottom: 1px solid rgba(255, 215, 0, 0.1); }
-        .appointments-table th { background-color: rgba(10, 25, 47, 0.8); color: var(--gold-accent); font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
-        .appointments-table tr:hover { background-color: rgba(255, 215, 0, 0.05); }
+        .appointments-table th, .appointments-table td { padding: 1.2rem; border-bottom: 1px solid var(--border-color); }
+        .appointments-table th { background-color: var(--nav-bg); color: var(--gold-accent); font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        .appointments-table tr:hover { background-color: rgba(197, 160, 89, 0.05); }
         
         /* Boutons d'action */
-        .logout-btn { background: #ff4757; color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .logout-btn:hover { background: #ff6b81; }
-        .refresh-btn { background: var(--gold-accent); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .status-badge { padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: rgba(255, 215, 0, 0.15); color: var(--gold-accent); border: 1px solid var(--gold-accent); }
+        .refresh-btn { background: var(--gradient-gold); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: var(--transition); box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2); }
+        .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(197, 160, 89, 0.4); }
     </style>
 </head>
 <body>
 
-    <header class="admin-header">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
-            <h2 style="margin: 0; font-family: 'Georgia', serif;">Espace Dr Fethi Ghraybia</h2>
-        </div>
-        <button id="logout-btn" class="logout-btn">Déconnexion</button>
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="logo.png" alt="Logo" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Espace Praticien
+                </div>
+            </div>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/blog.html">Voir le Blog</a></li>
+                <li id="auth-nav-item">
+                    </li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
     </header>
 
     <main class="admin-container">
         <div class="dashboard-controls">
-            <h1 style="color: var(--gold-accent);">Gestion des Rendez-vous</h1>
-            <input type="text" id="search-input" class="vip-input" placeholder="🔍 Rechercher un patient..." style="max-width: 300px; margin-bottom: 0;">
-            <button id="refresh-btn" class="refresh-btn">🔄 Actualiser la liste</button>
+            <h1 style="color: var(--gold-accent); font-family: 'Georgia', serif;">Gestion du Cabinet</h1>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <input type="text" id="search-input" class="vip-input" placeholder="🔍 Rechercher un patient..." style="max-width: 300px; margin-bottom: 0;">
+                <button id="refresh-btn" class="refresh-btn">🔄 Actualiser</button>
+                <button onclick="exportToCSV()" class="refresh-btn" style="background: #27ae60;">📊 Export Compta</button>
+            </div>
         </div>
 
-        <!-- SECTION GESTION BLOG (Ajoutée pour centraliser l'espace docteur) -->
-        <div style="background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 3rem; border-left: 4px solid var(--gold-accent);">
-            <h2 style="margin-bottom: 1rem; color: var(--gold-accent);">✍️ Publier un Article</h2>
+        <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: var(--shadow-premium); margin-bottom: 3rem; border-top: 4px solid var(--gold-accent);">
+            <h2 style="margin-bottom: 1.5rem; color: var(--gold-accent); font-family: 'Georgia', serif;">✍️ Gestion des Actualités</h2>
             <form id="blog-form">
                 <input type="hidden" id="article-id">
-                <input type="text" id="article-title" class="vip-input" placeholder="Titre de l'article" required>
-                <input type="file" id="article-image" class="vip-input" accept="image/*">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <input type="text" id="article-title" class="vip-input" placeholder="Titre de l'article" required>
+                    <input type="file" id="article-image" class="vip-input" accept="image/*">
+                </div>
                 <textarea id="article-content" class="vip-input" rows="4" placeholder="Contenu de l'article..." required></textarea>
                 <div style="display: flex; gap: 10px;">
-                    <button type="submit" id="submit-article-btn" class="refresh-btn" style="width: auto;">Publier l'article</button>
-                    <button type="button" id="cancel-edit-btn" class="refresh-btn" style="width: auto; background: #95a5a6; display: none;">Annuler</button>
+                    <button type="submit" id="submit-article-btn" class="refresh-btn">Publier l'article</button>
+                    <button type="button" id="cancel-edit-btn" class="refresh-btn" style="background: #95a5a6; display: none;">Annuler</button>
                 </div>
             </form>
             <div id="admin-articles-list" style="margin-top: 2rem;"></div>
         </div>
 
+        <h2 style="margin-bottom: 1.5rem; color: var(--gold-accent); font-family: 'Georgia', serif;">📅 File d'attente des patients</h2>
         <div class="table-wrapper">
             <table class="appointments-table">
                 <thead>
                     <tr>
-                        <th>Date de demande</th>
+                        <th>Date</th>
                         <th>Patient</th>
-                        <th>Téléphone</th>
+                        <th>Contact</th>
+                        <th>Docs/Visio</th>
                         <th>Motif</th>
-                        <th>Diagnostic</th>
+                        <th>Note</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody id="appointments-table-body">
-                    <!-- Rempli par script.js -->
-                    <tr><td colspan="6" style="text-align: center; padding: 2rem;">Chargement...</td></tr>
+                    <tr><td colspan="7" style="text-align: center; padding: 3rem; opacity: 0.6;">Chargement des données sécurisées...</td></tr>
                 </tbody>
             </table>
         </div>
     </main>
 
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Interface de gestion administrative et médicale. Accès strictement réservé au personnel autorisé.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Support Technique</h3>
+                <p>En cas de problème avec la plateforme, contactez votre administrateur système.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Espace Praticien Allo Kiné. Tous droits réservés.</p>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
     <script>
-        // --- VÉRIFIER L'AUTHENTIFICATION ADMIN ---
         document.addEventListener('DOMContentLoaded', async () => {
+            // --- VÉRIFIER L'AUTHENTIFICATION DOCTEUR/ADMIN ---
             try {
-                const response = await fetch('/api/auth/verify', {
-                    credentials: 'include'
-                });
-                
-                if (!response.ok) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-                
+                const response = await fetch('/api/auth/verify', { credentials: 'include' });
                 const data = await response.json();
-                if (data.role !== 'admin') {
+                
+                // On accepte 'kine' ou 'admin'
+                if (!response.ok || (data.role !== 'kine' && data.role !== 'admin')) {
                     window.location.href = 'login.html';
                     return;
                 }
@@ -105,22 +132,16 @@
                 return;
             }
             
-            // Chargement des données via les fonctions centralisées de script.js
+            // Chargement des données via script.js
             if (typeof loadAppointments === 'function') loadAppointments();
             if (typeof loadAdminArticles === 'function') loadAdminArticles();
         });
 
-        // ---  DÉCONNEXION ---
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await fetch('/api/auth/logout', {
-                method: 'POST',
-                credentials: 'include'
-            });
-            window.location.href = 'index.html';
+        // Bouton rafraîchir
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            loadAppointments();
+            loadAdminArticles();
         });
-
-        // --- 🔄 ACTUALISATION ---
-        document.getElementById('refresh-btn').addEventListener('click', () => window.location.reload());
     </script>
 </body>
 </html>

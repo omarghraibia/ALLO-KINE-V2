@@ -7,54 +7,87 @@
     <link rel="stylesheet" href="/style.css">
     <style>
         body { background-color: var(--bg-color); color: var(--text-color); }
-        .dashboard-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: var(--nav-bg); border-bottom: 2px solid var(--gold-accent); }
-        .dashboard-container { padding: 3rem 5%; min-height: 80vh; max-width: 1000px; margin: 0 auto; }
-        .welcome-card { background: var(--card-bg); padding: 2rem; border-radius: 10px; box-shadow: var(--shadow-premium); border-left: 5px solid var(--gold-accent); margin-bottom: 2rem; }
-        .action-btn { background: var(--gold-accent); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 15px; transition: 0.3s; }
-        .action-btn:hover { background: #b5952f; }
-        .logout-btn { background: #ff4757; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .logout-btn:hover { background: #ff6b81; }
-        .history-box { background: var(--card-bg); padding: 2rem; border-radius: 10px; text-align: center; border: 1px dashed var(--gold-accent); opacity: 0.8; }
+        .dashboard-container { padding: 140px 5% 50px; min-height: 80vh; max-width: 1200px; margin: 0 auto; }
+        .welcome-card { 
+            background: var(--card-bg); 
+            padding: 2.5rem; 
+            border-radius: 15px; 
+            box-shadow: var(--shadow-premium); 
+            border-left: 5px solid var(--gold-accent); 
+            margin-bottom: 3rem; 
+        }
+        .action-btn { 
+            background: var(--gradient-gold); 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-top: 20px; 
+            transition: var(--transition); 
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+        }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4); }
+        .history-box { 
+            background: var(--card-bg); 
+            padding: 2.5rem; 
+            border-radius: 15px; 
+            text-align: center; 
+            border: 1px dashed var(--gold-accent); 
+            box-shadow: var(--shadow-premium);
+        }
+        .appointment-item {
+            background: rgba(197, 160, 89, 0.05);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--gold-accent);
+            text-align: left;
+            transition: var(--transition);
+        }
+        .appointment-item:hover { transform: scale(1.01); background: rgba(197, 160, 89, 0.1); }
     </style>
 </head>
 <body>
 
-   <header class="pro-header">
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
             <div style="display: flex; flex-direction: column; justify-content: center;">
                 <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
                 <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
-                    Mon Espace Patient
+                    Espace Patient
                 </div>
             </div>
         </a>
         
         <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="cabinet.html">Le Cabinet</a></li>
-                <li><a href="competences.html">Soins & Tarifs</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li id="nav-logout"><a href="#" id="logout-btn-nav" style="color: #ff4757; font-weight: bold;">Déconnexion</a></li>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html">Le Cabinet</a></li>
+                <li><a href="/blog.html">Actualités</a></li>
+                <li><a href="/contact.html">Prendre RDV</a></li>
+                <li id="auth-nav-item"></li>
                 <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
 
     <main class="dashboard-container">
-        <div class="welcome-card">
-            <h2>Bienvenue dans votre espace personnel de santé</h2>
-            <p style="margin-top: 10px; opacity: 0.9;">Gérez vos consultations, suivez votre rééducation et contactez le cabinet du Dr Ghraybia en toute simplicité.</p>
-            <a href="contact.html" class="action-btn">Prendre un nouveau rendez-vous</a>
+        <div class="welcome-card reveal active">
+            <h2 style="font-family: 'Georgia', serif; color: var(--nav-bg);">Bienvenue dans votre espace santé</h2>
+            <p style="margin-top: 15px; font-size: 1.1rem; opacity: 0.8;">Suivez vos soins, accédez à vos bilans et programmez vos prochaines séances en toute sérénité.</p>
+            <a href="/contact.html" class="action-btn">Nouveau rendez-vous</a>
         </div>
 
-        <h3 style="margin-bottom: 1rem; color: var(--gold-accent);">Historique de mes soins</h3>
+        <h3 style="margin-bottom: 1.5rem; color: var(--gold-accent); font-family: 'Georgia', serif; font-size: 1.8rem;">Historique de vos séances</h3>
         
-        <div class="history-box">
-            <p>📋 Vos futurs rendez-vous et bilans s'afficheront ici.</p>
-            <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;">(Fonctionnalité en cours de synchronisation avec le cabinet)</p>
+        <div id="patient-history" class="history-box">
+            <p>Chargement de vos informations sécurisées...</p>
         </div>
     </main>
 
@@ -62,105 +95,85 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3 class="brand-name">ALLO KINÉ</h3>
-                <p>L'excellence de la rééducation à votre service. Des soins personnalisés pour retrouver votre pleine mobilité.</p>
+                <p>Votre plateforme de suivi thérapeutique personnalisée. La confidentialité de vos données est notre priorité.</p>
             </div>
             <div class="footer-col">
-                <h3>Liens Rapides</h3>
+                <h3>Liens Utiles</h3>
                 <ul>
-                    <li><a href="/cabinet.html">Découvrir le Cabinet</a></li>
-                    <li><a href="/experiences.html">Nos Expériences</a></li>
-                    <li><a href="/blog.html">Blog & Actualités</a></li>
-                    <li><a href="/faq.html">Foire Aux Questions</a></li>
+                    <li><a href="/cabinet.html">Le Cabinet</a></li>
+                    <li><a href="/blog.html">Conseils Santé</a></li>
+                    <li><a href="/faq.html">Assistance FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Contact & Infos</h3>
-                <p>📍 123 Avenue de la Santé, Grenoble</p>
+                <h3>Support</h3>
+                <p>📍 Grenoble, France</p>
                 <p>📞 04 76 00 00 00</p>
-                <p>✉️ contact@allokine.fr</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Allo Kiné. Conçu par Omar Ghraybia.</p>
+            <p>&copy; 2026 Espace Patient Allo Kiné. Tous droits réservés.</p>
         </div>
     </footer>
 
+    <script src="/script.js"></script>
+
     <script>
-        // --- VÉRIFIER L'AUTHENTIFICATION ET CHARGER LA PAGE ---
         document.addEventListener('DOMContentLoaded', async () => {
+            // 1. VÉRIFIER L'ACCÈS PATIENT
             try {
-                const response = await fetch('/api/auth/verify', {
-                    credentials: 'include'
-                });
+                const response = await fetch('/api/auth/verify', { credentials: 'include' });
+                const data = await response.json();
                 
-                if (!response.ok || (await response.clone().json()).role !== 'patient') {
-                    window.location.href = 'login.html';
-                    return; // Stoppe l'exécution si non connecté
+                if (!response.ok || data.role !== 'patient') {
+                    window.location.href = '/login.html';
+                    return;
                 }
             } catch (err) {
-                window.location.href = 'login.html';
+                window.location.href = '/login.html';
                 return;
             }
 
-            // --- DÉCONNEXION ---
-            const logoutBtn = document.getElementById('logout-btn-nav');
-            if(logoutBtn) {
-                logoutBtn.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    // Nettoyage complet
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-                    window.location.href = 'index.html';
+            // 2. CHARGER L'HISTORIQUE
+            const historyBox = document.getElementById('patient-history');
+            
+            try {
+                const res = await fetch('/api/appointments', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
                 });
-            }
 
-            // --- CHARGER L'HISTORIQUE DES RDV ---
-            const loadMyHistory = async () => {
-                try {
-                    const response = await fetch('/api/appointments', {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include'
-                    });
-
-                    if (response.ok) {
-                        const appointments = await response.json();
-                        const historyBox = document.querySelector('.history-box');
-                        
-                        if (appointments.length === 0) {
-                            historyBox.innerHTML = '<p>📋 Vous n\'avez pas encore de rendez-vous ou de bilans enregistrés.</p>';
-                        } else {
-                            let htmlContent = '<h4 style="color:var(--gold-accent); margin-bottom:15px; text-align:left;">Vos dernières demandes :</h4><ul style="list-style:none; padding:0; text-align:left;">';
+                if (res.ok) {
+                    const appointments = await res.json();
+                    
+                    if (!appointments || appointments.length === 0) {
+                        historyBox.innerHTML = '<p>📋 Vous n\'avez pas encore de rendez-vous enregistré.</p>';
+                    } else {
+                        let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+                        appointments.forEach(app => {
+                            const date = new Date(app.createdAt).toLocaleDateString('fr-FR');
+                            const statusLabel = app.statut === 'en_attente' ? '⏳ En attente' : '✅ Validé';
+                            const color = app.statut === 'en_attente' ? '#f39c12' : '#27ae60';
                             
-                            appointments.forEach(app => {
-                                const dateStr = new Date(app.createdAt).toLocaleDateString('fr-FR');
-                                let statusColor = app.statut === 'en_attente' ? 'orange' : 'green';
-                                
-                                htmlContent += `
-                                    <li style="background: rgba(255,255,255,0.05); margin-bottom: 10px; padding: 15px; border-radius: 8px; border-left: 3px solid ${statusColor};">
-                                        <strong>${dateStr}</strong> - ${app.motif} <br>
-                                        <span style="font-size:0.85rem; opacity:0.8;">Diagnostic : ${app.diagnostic || 'En attente'}</span><br>
-                                        <span style="font-size:0.85rem; color:${statusColor}; font-weight:bold;">Statut: ${app.statut.replace('_', ' ')}</span>
-                                    </li>
-                                `;
-                            });
-                            htmlContent += '</ul>';
-                            historyBox.innerHTML = htmlContent;
-                        }
-                    } else if (response.status === 401) {
-                        window.location.href = 'login.html';
+                            html += `
+                                <div class="appointment-item">
+                                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                                        <strong>${date} - ${app.motif}</strong>
+                                        <span style="color:${color}; font-weight:bold; font-size:0.85rem;">${statusLabel}</span>
+                                    </div>
+                                    <p style="margin-top:8px; font-size:0.9rem; opacity:0.8;">Note du praticien : ${app.diagnostic || 'Dossier en cours d\\'analyse'}</p>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        historyBox.innerHTML = html;
                     }
-                } catch (error) {
-                    console.error("Erreur de chargement de l'historique", error);
-                    document.querySelector('.history-box').innerHTML = '<p style="color:#ff4757;">Erreur de chargement des données.</p>';
                 }
-            };
-
-            // Lancer le chargement
-            loadMyHistory();
-
-        }); // <--- C'EST CETTE LIGNE QUI MANQUAIT ! Elle ferme le bloc DOMContentLoaded
+            } catch (error) {
+                historyBox.innerHTML = '<p style="color:#ff4757;">Impossible de charger l\'historique.</p>';
+            }
+        });
     </script>
 </body>
 </html>

@@ -6,107 +6,164 @@
     <title>FAQ - Questions Fréquentes | ALLO KINÉ</title>
     <link rel="stylesheet" href="/style.css">
     <style>
-        .faq-container { max-width: 800px; margin: 120px auto 4rem; padding: 0 5%; }
-        .faq-item { background: var(--card-bg); border-radius: 10px; margin-bottom: 1rem; box-shadow: var(--shadow-light); overflow: hidden; }
-        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: var(--nav-bg); }
+        .faq-container { max-width: 900px; margin: 140px auto 4rem; padding: 0 5%; }
+        
+        .faq-item { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            margin-bottom: 1.2rem; 
+            box-shadow: var(--shadow-premium); 
+            overflow: hidden; 
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .faq-question { 
+            padding: 1.8rem; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: bold; 
+            color: var(--nav-bg);
+            font-size: 1.1rem;
+        }
+        
         .faq-question:hover { background: rgba(197, 160, 89, 0.05); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 1.5rem; opacity: 0.9; line-height: 1.6; }
-        .faq-item.active .faq-answer { padding-bottom: 1.5rem; max-height: 500px; }
-        .faq-icon { transition: transform 0.3s; color: var(--gold-accent); }
+        
+        .faq-answer { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            padding: 0 1.8rem; 
+            opacity: 0; 
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+        
+        .faq-item.active { border-color: var(--gold-accent); }
+        
+        .faq-item.active .faq-answer { 
+            padding-bottom: 1.8rem; 
+            max-height: 600px; 
+            opacity: 0.9;
+        }
+        
+        .faq-icon { 
+            transition: transform 0.3s; 
+            color: var(--gold-accent); 
+            font-size: 0.8rem;
+        }
+        
         .faq-item.active .faq-icon { transform: rotate(180deg); }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
-            <span class="brand-name">ALLO KINÉ</span>
+
+    <header class="pro-header">
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="brand-name" style="line-height: 1;">ALLO KINÉ</div>
+                <div style="color: var(--gold-accent); font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">
+                    Centre d'aide
+                </div>
+            </div>
         </a>
+        
+        <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="contact.html">Contact</a></li>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html">Le Cabinet</a></li>
+                <li><a href="/competences.html">Expertise</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
 
-    <main class="faq-container reveal active">
-        <h1 class="section-title" style="text-align: center; margin-bottom: 3rem; color: var(--gold-accent);">Questions Fréquentes</h1>
+    <main class="faq-container">
+        <div class="reveal active" style="text-align: center; margin-bottom: 4rem;">
+            <h1 style="font-size: 2.5rem; font-family: 'Georgia', serif; color: var(--gold-accent); margin-bottom: 1rem;">Questions Fréquentes</h1>
+            <div style="width: 60px; height: 3px; background: var(--gradient-gold); margin: 0 auto;"></div>
+        </div>
 
-        <div class="faq-item">
+        <div class="faq-item reveal active">
             <div class="faq-question">
                 Faut-il une ordonnance médicale ?
                 <span class="faq-icon">▼</span>
             </div>
             <div class="faq-answer">
-                <p>Pour les soins de kinésithérapie remboursés par la CNAM ou les assurances, une ordonnance est obligatoire. Pour les massages de bien-être ou le coaching sportif (X-Body), l'accès est direct sans ordonnance.</p>
+                <p>Pour les soins de kinésithérapie remboursés par la CNAM ou les assurances, une ordonnance est obligatoire. Cependant, pour les séances de bien-être, de massage de confort ou le coaching technologique (X-Body), vous pouvez consulter en accès direct sans prescription.</p>
             </div>
         </div>
 
-        <div class="faq-item">
+        <div class="faq-item reveal active">
             <div class="faq-question">
                 Acceptez-vous les urgences à domicile ?
                 <span class="faq-icon">▼</span>
             </div>
             <div class="faq-answer">
-                <p>Oui, nous intervenons à domicile sur La Marsa, Gammarth et Carthage pour les cas ne pouvant pas se déplacer (post-opératoire, personnes âgées). Merci de nous contacter par téléphone pour vérifier la disponibilité.</p>
+                <p>Oui, nous nous déplaçons à domicile sur les zones de La Marsa, Gammarth et Carthage pour les patients à mobilité réduite ou en phase post-opératoire immédiate. Contactez-nous directement par téléphone pour organiser l'intervention.</p>
             </div>
         </div>
 
-        <div class="faq-item">
+        <div class="faq-item reveal active">
             <div class="faq-question">
                 Qu'est-ce que la technologie X-Body ?
                 <span class="faq-icon">▼</span>
             </div>
             <div class="faq-answer">
-                <p>C'est une technologie d'électrostimulation musculaire (EMS) qui permet de faire l'équivalent de 1h30 de sport en seulement 20 minutes. C'est idéal pour le renforcement musculaire rapide et la perte de poids, sous contrôle médical.</p>
+                <p>Il s'agit d'un système d'électrostimulation musculaire (EMS) de pointe. Sous la supervision du Dr Ghraybia, une séance de 20 minutes permet de solliciter vos muscles en profondeur, équivalant à 1h30 d'entraînement intensif, idéal pour la rééducation active et le renforcement.</p>
             </div>
         </div>
 
-        <div class="faq-item">
+        <div class="faq-item reveal active">
             <div class="faq-question">
-                Quels sont les moyens de paiement ?
+                Quels sont les moyens de paiement acceptés ?
                 <span class="faq-icon">▼</span>
             </div>
             <div class="faq-answer">
-                <p>Nous acceptons les espèces, les chèques et les virements bancaires (D17). Le paiement par carte bancaire est disponible pour les programmes en ligne.</p>
+                <p>Au cabinet, nous acceptons les espèces, les chèques et les transferts D17. Pour les services en ligne (bilans visio et programmes), le règlement s'effectue de manière sécurisée via PayPal ou virement bancaire.</p>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>ALLO KINÉ</h3>
-                <p>Cabinet d'excellence en kinésithérapie, médecine du sport et technologies de pointe à La Marsa.</p>
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>Cabinet d'excellence spécialisé dans la rééducation sportive et technologique. Votre santé est notre priorité absolue.</p>
             </div>
-            <div class="footer-column">
-                <h4>Liens Rapides</h4>
-                <ul class="footer-links">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="competences.html">Soins & Tarifs</a></li>
-                    <li><a href="cabinet.html">Le Cabinet</a></li>
-                    <li><a href="contact.html">Prendre RDV</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <p>📍 Rue Errazi, La Marsa<br>(VIP Body Center)</p>
+            <div class="footer-col">
+                <h3>Contact Rapide</h3>
+                <p>📍 La Marsa, Rue Errazi</p>
                 <p>📞 +216 98 56 15 86</p>
+                <p>✉️ contact@allokine.fr</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 ALLO KINÉ. Tous droits réservés. Excellence & Santé.</p>
+            <p>&copy; 2026 Allo Kiné. Tous droits réservés.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
     <script>
-        // Script simple pour l'accordéon
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const parent = item.parentElement;
-                parent.classList.toggle('active');
+        // Gestion de l'accordéon (FAQ)
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                
+                // Fermer les autres items si besoin (optionnel)
+                /*
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+                */
+                
+                item.classList.toggle('active');
             });
         });
     </script>
