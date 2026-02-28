@@ -18,6 +18,7 @@
         .divider:not(:empty)::after { margin-left: .5em; }
         .google-btn-container { display: flex; justify-content: center; margin-bottom: 10px; }
     </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <div class="register-box">
@@ -39,6 +40,9 @@
         </div>
 
         <div class="divider">OU AVEC EMAIL</div>
+
+        <!-- reCAPTCHA v2 widget -->
+        <div class="g-recaptcha" data-sitekey="6Lcq6XosAAAAAP2lPObTYKYxYhmNTgOb_x4XraCt" style="margin: 10px 0;"></div>
 
         <form id="register-form">
             <div style="display: flex; gap: 10px;">
@@ -65,6 +69,9 @@
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value
             };
+            // récupérer jeton reCAPTCHA
+            const recaptchaToken = grecaptcha ? grecaptcha.getResponse() : null;
+            if (recaptchaToken) userData.recaptchaToken = recaptchaToken;
 
             try {
                 const response = await fetch('/api/auth/register', {
