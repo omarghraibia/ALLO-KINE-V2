@@ -47,7 +47,12 @@
 
         <form id="login-form">
             <input type="email" id="email" class="vip-input" placeholder="Adresse Email" required>
-            <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required>
+            <div style="position: relative; margin: 10px 0;">
+                <input type="password" id="password" class="vip-input" placeholder="Mot de passe" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #888; font-size: 1.2rem;">
+                    👁️
+                </button>
+            </div>
             
             <button type="submit" class="login-btn">Se connecter</button>
         </form>
@@ -58,6 +63,19 @@
     </div> 
 
     <script>
+        // --- 0. AFFICHAGE/MASQUAGE MOT DE PASSE ---
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = event.target;
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
         // --- 1. CONNEXION CLASSIQUE CORRIGÉE ---
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault(); 

@@ -25,7 +25,12 @@
         <div class="g-recaptcha" data-sitekey="6Lcq6XosAAAAAP2lPObTYKYxYhmNTgOb_x4XraCt" style="margin: 10px 0;"></div>
 
         <form id="reset-form">
-            <input type="password" id="password" class="vip-input" placeholder="Nouveau mot de passe" required minlength="6">
+            <div style="position: relative; margin: 10px 0;">
+                <input type="password" id="password" class="vip-input" placeholder="Nouveau mot de passe" required minlength="6">
+                <button type="button" class="toggle-password" onclick="togglePassword('password')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #888; font-size: 1.2rem;">
+                    👁️
+                </button>
+            </div>
             <button type="submit" class="btn">Valider</button>
         </form>
 
@@ -34,6 +39,19 @@
     </div>
 
     <script>
+        // --- AFFICHAGE/MASQUAGE MOT DE PASSE ---
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = event.target;
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
         function getQueryParam(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name);
