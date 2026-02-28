@@ -18,10 +18,13 @@ self.addEventListener('fetch', async e => {
   const req = e.request;
   const url = new URL(req.url);
 
+  // Ne traiter que les requêtes vers notre propre origine.
+  // Les appels vers d'autres domaines (Google, API externes...) sont
+  // simplement passés au réseau sans tentative de mise en cache.
   if (url.origin === location.origin) {
     e.respondWith(cacheFirst(req));
   } else {
-    e.respondWith(networkAndCache(req));
+    e.respondWith(fetch(req)); // bypass cache for cross-origin
   }
 });
 

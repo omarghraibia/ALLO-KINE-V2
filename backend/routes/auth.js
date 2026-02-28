@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
 const https = require('https');
+const crypto = require('crypto');
 
 // Vérifie le token reCAPTCHA côté serveur
 function verifyRecaptchaToken(token) {
@@ -57,8 +58,13 @@ router.post('/register', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { nom, prenom, telephone, email, password } = req.body;
+    const { nom, prenom, telephone, email, password, recaptchaToken } = req.body;
     try {
+        // vérifier reCAPTCHA si fourni
+        if (recaptchaToken) {
+            const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
+            if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
+        }
         let user = await User.findOne({ email });
         if (user) return res.status(400).json({ msg: 'Cet email est déjà utilisé' });
 
@@ -81,6 +87,58 @@ router.post('/register', [
         res.status(500).send('Erreur serveur');
     }
 });
+
+// --- 🔐 CONNEXION CLASSIQUE ---
+// --- ✉️ MOT DE PASSE OUBLIÉ ---
+router.post('/forgot', async (req, res) => {
+    const { email, recaptchaToken } = req.body;
+    try {
+        if (recaptchaToken) {
+            const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
+            if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
+        }
+        const user = await User.findOne({ email });
+        if (user) {
+            const token = crypto.randomBytes(20).toString('hex');
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 3600000; // 1h
+            await user.save();
+            // ici on enverrait un email, pour l'instant on logge
+            console.log(`Réinitialisation mot de passe : http://localhost:5000/reset.html?token=${token}`);
+        }
+        // ne pas indiquer si l'adresse existe ou non
+        res.json({ msg: "Si l'email est enregistré, un lien de réinitialisation a été envoyé." });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
+});
+
+// --- 🔒 RÉINITIALISATION DU MOT DE PASSE ---
+router.post('/reset', async (req, res) => {
+    const { token, password, recaptchaToken } = req.body;
+    try {
+        if (recaptchaToken) {
+            const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
+            if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
+        }
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+        if (!user) return res.status(400).json({ msg: 'Token invalide ou expiré' });
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+        res.json({ msg: 'Mot de passe mis à jour avec succès' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
+});
+
 
 // --- 🔐 CONNEXION CLASSIQUE ---
 router.post('/login', async (req, res) => {
