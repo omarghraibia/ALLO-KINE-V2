@@ -45,13 +45,15 @@ html {
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-hover); }
 
 /* Navigation */
-header { background-color: rgba(10, 25, 47, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05); }
-.logo-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
-.brand-name { font-size: 1.6rem; font-family: 'Georgia', serif; color: var(--nav-text); letter-spacing: 2px; }
+header { background-color: rgba(10, 25, 47, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 0.85rem 4%; display: flex; justify-content: space-between; align-items: center; gap: 1.2rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.logo-link { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; flex-shrink: 0; }
+.brand-name { font-size: clamp(1.2rem, 1.5vw, 1.6rem); font-family: 'Georgia', serif; color: var(--nav-text); letter-spacing: 1.4px; white-space: nowrap; }
 
 .menu-toggle { display: none; color: var(--gold-accent); font-size: 2rem; cursor: pointer; }
-nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
-nav a { color: var(--nav-text); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; transition: var(--transition); }
+nav { margin-left: auto; }
+nav ul { list-style: none; display: flex; gap: clamp(0.7rem, 1.2vw, 1.4rem); align-items: center; flex-wrap: nowrap; }
+nav li { flex: 0 0 auto; }
+nav a { color: var(--nav-text); text-decoration: none; font-size: clamp(0.74rem, 0.82vw, 0.94rem); letter-spacing: 0.8px; text-transform: uppercase; transition: var(--transition); white-space: nowrap; }
 nav a:hover { color: var(--gold-accent); }
 
 .theme-btn { background: transparent; border: 1px solid var(--gold-accent); color: var(--nav-text); width: 40px; height: 40px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
@@ -153,6 +155,12 @@ nav a:hover { color: var(--gold-accent); }
         display: block; 
         z-index: 2000; 
         position: relative;
+    }
+    header {
+        padding: 0.75rem 5%;
+    }
+    nav {
+        margin-left: 0;
     }
     nav ul { 
         position: fixed; 
