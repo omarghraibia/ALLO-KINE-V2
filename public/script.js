@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. GESTION DU MODE SOMBRE ---
     const themeBtn = document.getElementById('theme-toggle');
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(cancelBtn) cancelBtn.style.display = 'none';
                     loadAdminArticles();
                 } else {
-                    alert('Erreur lors de l\\'opération');
+                    alert("Erreur lors de l'opération");
                 }
             } catch (err) {
                 console.error(err);
