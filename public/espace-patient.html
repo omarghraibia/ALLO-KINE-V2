@@ -19,7 +19,7 @@
 </head>
 <body>
 
-   <header>
+   <header class="pro-header">
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="Logo Allo Kiné" style="width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
             <div style="display: flex; flex-direction: column; justify-content: center;">
@@ -34,8 +34,8 @@
         <nav>
             <ul id="nav-menu">
                 <li><a href="index.html">Accueil</a></li>
+                <li><a href="cabinet.html">Le Cabinet</a></li>
                 <li><a href="competences.html">Soins & Tarifs</a></li>
-                <li><a href="experiences.html">Expertise</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li id="nav-logout"><a href="#" id="logout-btn-nav" style="color: #ff4757; font-weight: bold;">Déconnexion</a></li>
                 <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
@@ -58,8 +58,35 @@
         </div>
     </main>
 
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="brand-name">ALLO KINÉ</h3>
+                <p>L'excellence de la rééducation à votre service. Des soins personnalisés pour retrouver votre pleine mobilité.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="/cabinet.html">Découvrir le Cabinet</a></li>
+                    <li><a href="/experiences.html">Nos Expériences</a></li>
+                    <li><a href="/blog.html">Blog & Actualités</a></li>
+                    <li><a href="/faq.html">Foire Aux Questions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact & Infos</h3>
+                <p>📍 123 Avenue de la Santé, Grenoble</p>
+                <p>📞 04 76 00 00 00</p>
+                <p>✉️ contact@allokine.fr</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Allo Kiné. Conçu par Omar Ghraybia.</p>
+        </div>
+    </footer>
+
     <script>
-        // --- VÉRIFIER L'AUTHENTIFICATION ---
+        // --- VÉRIFIER L'AUTHENTIFICATION ET CHARGER LA PAGE ---
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const response = await fetch('/api/auth/verify', {
@@ -68,7 +95,7 @@
                 
                 if (!response.ok || (await response.clone().json()).role !== 'patient') {
                     window.location.href = 'login.html';
-                    return;
+                    return; // Stoppe l'exécution si non connecté
                 }
             } catch (err) {
                 window.location.href = 'login.html';
@@ -76,59 +103,64 @@
             }
 
             // --- DÉCONNEXION ---
-            document.getElementById('logout-btn-nav').addEventListener('click', async (e) => {
-                e.preventDefault();
-                await fetch('/api/auth/logout', {
-                    method: 'POST',
-                    credentials: 'include'
+            const logoutBtn = document.getElementById('logout-btn-nav');
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    // Nettoyage complet
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+                    window.location.href = 'index.html';
                 });
-                window.location.href = 'index.html';
-            });
-
-        // --- CHARGER L'HISTORIQUE DES RDV ---
-        const loadMyHistory = async () => {
-            try {
-                const response = await fetch('/api/appointments', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include'
-                });
-
-                if (response.ok) {
-                    const appointments = await response.json();
-                    const historyBox = document.querySelector('.history-box');
-                    
-                    if (appointments.length === 0) {
-                        historyBox.innerHTML = '<p>📋 Vous n\'avez pas encore de rendez-vous ou de bilans enregistrés.</p>';
-                    } else {
-                        let htmlContent = '<h4 style="color:var(--gold-accent); margin-bottom:15px; text-align:left;">Vos dernières demandes :</h4><ul style="list-style:none; padding:0; text-align:left;">';
-                        
-                        appointments.forEach(app => {
-                            const dateStr = new Date(app.createdAt).toLocaleDateString('fr-FR');
-                            let statusColor = app.statut === 'en_attente' ? 'orange' : 'green';
-                            
-                            htmlContent += `
-                                <li style="background: rgba(255,255,255,0.05); margin-bottom: 10px; padding: 15px; border-radius: 8px; border-left: 3px solid ${statusColor};">
-                                    <strong>${dateStr}</strong> - ${app.motif} <br>
-                                    <span style="font-size:0.85rem; opacity:0.8;">Diagnostic : ${app.diagnostic || 'En attente'}</span><br>
-                                    <span style="font-size:0.85rem; color:${statusColor}; font-weight:bold;">Statut: ${app.statut.replace('_', ' ')}</span>
-                                </li>
-                            `;
-                        });
-                        htmlContent += '</ul>';
-                        historyBox.innerHTML = htmlContent;
-                    }
-                } else if (response.status === 401) {
-                    window.location.href = 'login.html';
-                }
-            } catch (error) {
-                console.error("Erreur de chargement de l'historique", error);
-                document.querySelector('.history-box').innerHTML = '<p style="color:#ff4757;">Erreur de chargement des données.</p>';
             }
-        };
 
-        // Lancer le chargement au démarrage de la page
-        loadMyHistory();
+            // --- CHARGER L'HISTORIQUE DES RDV ---
+            const loadMyHistory = async () => {
+                try {
+                    const response = await fetch('/api/appointments', {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        const appointments = await response.json();
+                        const historyBox = document.querySelector('.history-box');
+                        
+                        if (appointments.length === 0) {
+                            historyBox.innerHTML = '<p>📋 Vous n\'avez pas encore de rendez-vous ou de bilans enregistrés.</p>';
+                        } else {
+                            let htmlContent = '<h4 style="color:var(--gold-accent); margin-bottom:15px; text-align:left;">Vos dernières demandes :</h4><ul style="list-style:none; padding:0; text-align:left;">';
+                            
+                            appointments.forEach(app => {
+                                const dateStr = new Date(app.createdAt).toLocaleDateString('fr-FR');
+                                let statusColor = app.statut === 'en_attente' ? 'orange' : 'green';
+                                
+                                htmlContent += `
+                                    <li style="background: rgba(255,255,255,0.05); margin-bottom: 10px; padding: 15px; border-radius: 8px; border-left: 3px solid ${statusColor};">
+                                        <strong>${dateStr}</strong> - ${app.motif} <br>
+                                        <span style="font-size:0.85rem; opacity:0.8;">Diagnostic : ${app.diagnostic || 'En attente'}</span><br>
+                                        <span style="font-size:0.85rem; color:${statusColor}; font-weight:bold;">Statut: ${app.statut.replace('_', ' ')}</span>
+                                    </li>
+                                `;
+                            });
+                            htmlContent += '</ul>';
+                            historyBox.innerHTML = htmlContent;
+                        }
+                    } else if (response.status === 401) {
+                        window.location.href = 'login.html';
+                    }
+                } catch (error) {
+                    console.error("Erreur de chargement de l'historique", error);
+                    document.querySelector('.history-box').innerHTML = '<p style="color:#ff4757;">Erreur de chargement des données.</p>';
+                }
+            };
+
+            // Lancer le chargement
+            loadMyHistory();
+
+        }); // <--- C'EST CETTE LIGNE QUI MANQUAIT ! Elle ferme le bloc DOMContentLoaded
     </script>
 </body>
 </html>
