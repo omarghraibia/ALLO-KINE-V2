@@ -85,10 +85,11 @@ router.post('/register', [
 router.post('/login', async (req, res) => {
     const { email, password, recaptchaToken } = req.body;
     try {
-        // Vérification reCAPTCHA
-        if (!recaptchaToken) return res.status(400).json({ msg: 'reCAPTCHA manquant' });
-        const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
-        if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
+        // Vérification reCAPTCHA facultative
+        if (recaptchaToken) {
+            const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
+            if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
+        }
 
         let user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'Identifiants invalides' });
