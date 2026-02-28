@@ -77,7 +77,7 @@
 
                 if (response.ok) {
                     alert('Compte créé avec succès !');
-                    localStorage.setItem('token', data.token);
+                    // le cookie gère désormais le token; on ne le stocke plus en localStorage
                     localStorage.setItem('role', data.role);
                     window.location.href = 'espace-patient.html';
                 } else {
@@ -99,7 +99,7 @@
                 
                 const data = await res.json();
                 if (res.ok) {
-                    localStorage.setItem('token', data.token);
+                    // token géré par cookie
                     localStorage.setItem('role', data.role);
                     window.location.href = 'espace-patient.html';
                 } else {

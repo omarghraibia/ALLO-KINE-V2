@@ -68,7 +68,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    localStorage.setItem('token', data.token); 
+                    // le cookie s'occupe désormais du token, pas besoin de le stocker
                     localStorage.setItem('role', data.role);
                     window.location.href = data.role === 'admin' ? 'admin.html' : 'espace-patient.html';
                 } else {
@@ -90,7 +90,7 @@
                 
                 const data = await res.json();
                 if (res.ok) {
-                    localStorage.setItem('token', data.token);
+                    // token géré par cookie
                     localStorage.setItem('role', data.role);
                     window.location.href = data.role === 'admin' ? 'admin.html' : 'espace-patient.html';
                 } else {

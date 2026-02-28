@@ -44,3 +44,8 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Serveur ALLO KINÉ actif sur le port ${PORT}`);
  
 });
+// En haut de ton fichier, avec les autres imports
+const cookieParser = require('cookie-parser');
+
+// Juste après tes autres app.use() (comme express.json)
+app.use(cookieParser());
