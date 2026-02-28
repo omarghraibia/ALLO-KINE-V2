@@ -50,6 +50,7 @@ router.post('/register', [
     check('nom', 'Le nom est requis').not().isEmpty(),
     check('prenom', 'Le prénom est requis').not().isEmpty(),
     check('email', 'Veuillez inclure un email valide').isEmail(),
+    check('telephone', 'Le téléphone est requis').not().isEmpty(),
     check('password', 'Veuillez entrer un mot de passe avec 6 caractères minimum').isLength({ min: 6 })
 ], async (req, res) => {
     // VÉRIFICATION DES ERREURS

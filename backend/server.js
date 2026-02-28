@@ -10,7 +10,7 @@ require('dotenv').config();
 // URI Mongo : utiliser la variable d'env si fournie, sinon fallback local
 const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/allo-kine';
 if (!process.env.MONGO_URI) {
-  console.warn('⚠️  Avertissement : la variable d\'environnement MONGO_URI est absente. Utilisation du fallback local', mongoUri);
+  console.warn('⚠️  Avertissement : la variable d\'environnement MONGO_URI est absente. Utilisation du fallback local.');
 }
 
 const app = express();

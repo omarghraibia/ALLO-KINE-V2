@@ -15,8 +15,8 @@ router.post('/', [
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     try {
-        const { nom, prenom, telephone, motif } = req.body;
-        const newAppointment = new Appointment({ nom, prenom, telephone, motif });
+        const { nom, prenom, telephone, motif, diagnostic } = req.body;
+        const newAppointment = new Appointment({ nom, prenom, telephone, motif, diagnostic });
         const appointment = await newAppointment.save();
         res.json(appointment);
     } catch (err) {

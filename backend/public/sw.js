@@ -2,7 +2,7 @@ const cacheName = 'allokine-v1';
 const staticAssets = [
   './',
   './index.html',
-  './style.css',
+  './style.css', 
   './script.js',
   './logo.png',
   './phototerrain.jpg'
