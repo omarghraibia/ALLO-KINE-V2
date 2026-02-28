@@ -19,13 +19,23 @@
 <body>
     <header>
         <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo" style="width: 50px; border-radius: 50%; border: 2px solid var(--gold-accent);">
-            <span class="brand-name">ALLO KINÉ</span>
+            <img src="logo.png" alt="Logo" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold-accent); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <span class="brand-name" style="line-height: 1;">ALLO KINÉ</span>
+                <span style="color: var(--gold-accent); font-size: 0.78rem; font-weight: bold; letter-spacing: 1.3px; margin-top: 4px; text-transform: uppercase;">Dr Fethi Ghraybia</span>
+            </div>
         </a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
         <nav>
             <ul id="nav-menu">
                 <li><a href="index.html">Accueil</a></li>
+                <li><a href="competences.html">Nos Soins & Tarifs</a></li>
+                <li><a href="experiences.html">Expertise</a></li>
+                <li><a href="cabinet.html">Le Cabinet</a></li>
+                <li><a href="faq.html" style="color: var(--gold-accent);">FAQ</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
             </ul>
         </nav>
     </header>
