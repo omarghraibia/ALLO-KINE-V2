@@ -23,15 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.getElementById('nav-menu');
 
     if (menuToggle && navMenu) {
+        // Initialisation ARIA
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+
         menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.innerHTML = navMenu.classList.contains('active') ? '✖' : '☰';
+            const isActive = navMenu.classList.toggle('active');
+            menuToggle.innerHTML = isActive ? '✖' : '☰';
+            menuToggle.setAttribute('aria-expanded', isActive);
+            menuToggle.setAttribute('aria-label', isActive ? 'Fermer le menu' : 'Ouvrir le menu');
         });
 
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 menuToggle.innerHTML = '☰';
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
     }

@@ -21,7 +21,8 @@ self.addEventListener('fetch', async e => {
   // Ne traiter que les requêtes vers notre propre origine.
   // Les appels vers d'autres domaines (Google, API externes...) sont
   // simplement passés au réseau sans tentative de mise en cache.
-  if (url.origin === location.origin) {
+  // IMPORTANT : On exclut les appels API (/api/) du cache pour avoir toujours les données à jour.
+  if (url.origin === location.origin && !url.pathname.startsWith('/api/')) {
     e.respondWith(cacheFirst(req));
   } else {
     e.respondWith(fetch(req)); // bypass cache for cross-origin

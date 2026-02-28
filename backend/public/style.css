@@ -10,6 +10,7 @@
     --border-color: #EAEAEA;
     --shadow-premium: 0 15px 35px rgba(0,0,0,0.05);
     --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --gradient-gold: linear-gradient(135deg, #C5A059 0%, #A68541 100%);
 }
 
 [data-theme="dark"] {
@@ -20,13 +21,26 @@
     --border-color: #1A2639;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', sans-serif; }
-body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; overflow-x: hidden; transition: background-color 0.5s; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', sans-serif; overflow-wrap: break-word; }
+
+/* Accessibilité : Focus visible pour la navigation au clavier */
+:focus-visible {
+    outline: 2px solid var(--gold-accent);
+    outline-offset: 3px;
+}
+
+body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; overflow-x: hidden; transition: background-color 0.5s; scroll-behavior: smooth; }
 h1, h2, h3 { font-family: 'Georgia', serif; font-weight: normal; color: var(--nav-bg); }
 [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 { color: var(--gold-accent); }
 
+/* Scrollbar personnalisée */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb { background: var(--gold-accent); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-hover); }
+
 /* Navigation */
-header { background-color: var(--nav-bg); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+header { background-color: rgba(10, 25, 47, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05); }
 .logo-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
 .brand-name { font-size: 1.6rem; font-family: 'Georgia', serif; color: var(--nav-text); letter-spacing: 2px; }
 
@@ -38,7 +52,7 @@ nav a:hover { color: var(--gold-accent); }
 .theme-btn { background: transparent; border: 1px solid var(--gold-accent); color: var(--nav-text); width: 40px; height: 40px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
 /* Hero Section */
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 5% 50px 5%; }
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 5% 50px 5%; background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.08), transparent 50%); }
 .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 0.5rem; }
 .hero-subtitle { font-size: 1.3rem; color: var(--gold-accent); font-weight: bold; margin-bottom: 2.5rem; letter-spacing: 2px; text-transform: uppercase; }
 
@@ -47,14 +61,14 @@ nav a:hover { color: var(--gold-accent); }
 .hero-list li::before { content: '✦'; color: var(--gold-accent); font-size: 1.4rem; }
 
 /* Grille de Soins */
-.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; width: 100%; }
-.service-card { background: var(--card-bg); padding: 3rem; border-radius: 12px; box-shadow: var(--shadow-premium); border-top: 4px solid var(--gold-accent); height: 100%; display: flex; flex-direction: column; transition: var(--transition); }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; width: 100%; }
+.service-card { background: var(--card-bg); padding: 3rem; border-radius: 12px; box-shadow: var(--shadow-premium); border-top: 4px solid var(--gold-accent); height: 100%; display: flex; flex-direction: column; transition: var(--transition); border: 1px solid rgba(0,0,0,0.03); }
 .service-card:hover { transform: translateY(-10px); }
 .service-card h3 { color: var(--gold-accent); margin-bottom: 1.5rem; font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
 
 /* Formulaire Médical */
-.vip-input { width: 100%; padding: 1rem; margin-bottom: 1.5rem; border: none; border-bottom: 1px solid var(--border-color); background: transparent; font-size: 1rem; color: var(--text-color); outline: none; transition: 0.3s; }
-.vip-input:focus { border-bottom-color: var(--gold-accent); }
+.vip-input { width: 100%; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); font-size: 1rem; color: var(--text-color); outline: none; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+.vip-input:focus { border-color: var(--gold-accent); box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15); }
 
 /* Animations */
 @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
@@ -62,7 +76,7 @@ nav a:hover { color: var(--gold-accent); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
 /* Section Tarifs */
-.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
 .pricing-card { background: var(--bg-color); border: 1px solid var(--border-color); padding: 2.5rem; border-radius: 15px; text-align: center; position: relative; transition: var(--transition); box-shadow: var(--shadow-light); }
 .pricing-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-premium); border-color: var(--gold-accent); }
 .premium-card { border: 2px solid var(--gold-accent); transform: scale(1.05); }
@@ -70,8 +84,8 @@ nav a:hover { color: var(--gold-accent); }
 .badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--gold-accent); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
 .price { font-size: 3rem; font-weight: bold; color: var(--gold-accent); margin: 1rem 0; font-family: 'Georgia', serif; }
 .currency { font-size: 1.2rem; color: var(--text-color); }
-.pay-btn { display: inline-block; padding: 1rem 2rem; width: 100%; border-radius: 8px; text-decoration: none; background: var(--gold-accent); color: white; font-weight: bold; transition: 0.3s; }
-.pay-btn:hover { background: var(--gold-hover); }
+.pay-btn { display: inline-block; padding: 1rem 2rem; width: 100%; border-radius: 8px; text-decoration: none; background: var(--gradient-gold); color: white; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3); }
+.pay-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(197, 160, 89, 0.5); }
 
 /* --- Style pour les photos professionnelles --- */
 .pro-photo {
@@ -116,6 +130,17 @@ nav a:hover { color: var(--gold-accent); }
     100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
+/* --- IDÉES DE CONTENU SUPPLÉMENTAIRE (Classes prêtes à l'emploi) --- */
+
+/* Section Témoignages */
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+.testimonial-card { background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-premium); border-left: 4px solid var(--gold-accent); font-style: italic; position: relative; }
+.testimonial-author { margin-top: 1rem; font-weight: bold; color: var(--nav-bg); font-style: normal; text-align: right; display: block; }
+
+/* Section Appel à l'action (CTA) */
+.cta-section { background: var(--nav-bg); color: white; padding: 4rem 5%; text-align: center; border-radius: 20px; margin: 4rem auto; max-width: 1000px; position: relative; overflow: hidden; box-shadow: var(--shadow-premium); }
+.cta-section h2 { color: var(--gold-accent); margin-bottom: 1rem; }
+
 /* --- ADAPTATION MOBILE (Toutes les règles pour téléphone groupées ici) --- */
 @media (max-width: 768px) {
     /* Menu Navigation Mobile */
@@ -144,7 +169,9 @@ nav a:hover { color: var(--gold-accent); }
     /* Ajustements Textes et Grilles */
     .hero h1 { font-size: 2.2rem; }
     .hero-subtitle { font-size: 1rem; }
-    .hero-list { padding: 1.5rem; }
+    .hero-list, .service-card, .pricing-card, .testimonial-card { padding: 1.5rem; }
+    .hero { padding-top: 100px; }
+    .brand-name { font-size: 1.3rem; }
     
     .services-grid, .pricing-grid { 
         grid-template-columns: 1fr; 

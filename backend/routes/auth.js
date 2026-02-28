@@ -74,15 +74,14 @@ router.post('/register', [
         await user.save();
 
         const payload = { user: { id: user.id, role: user.role } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
-            if (err) throw err;
-            // envoyer le token dans un cookie HttpOnly sécurisé
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 24 * 60 * 60 * 1000 // 24h en millisecondes
-            }).json({ msg: 'Inscription réussie', role: user.role });
-        });
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000, // 24h en millisecondes
+            sameSite: 'Strict' // Protection CSRF
+        }).json({ msg: 'Inscription réussie', role: user.role });
     } catch (err) {
         res.status(500).send('Erreur serveur');
     }
@@ -157,15 +156,14 @@ router.post('/login', async (req, res) => {
         if (!isMatch) return res.status(400).json({ msg: 'Identifiants invalides' });
 
         const payload = { user: { id: user.id, role: user.role } };
-        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
-            if (err) throw err;
-            // envoyer le token dans un cookie HttpOnly sécurisé
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 24 * 60 * 60 * 1000 // 24h
-            }).json({ msg: 'Connecté avec succès', role: user.role });
-        });
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000, // 24h
+            sameSite: 'Strict'
+        }).json({ msg: 'Connecté avec succès', role: user.role });
     } catch (err) {
         res.status(500).json({ msg: 'Erreur serveur' });
     }
@@ -203,15 +201,14 @@ router.post('/google', async (req, res) => {
 
         // Création du passe-partout (Token)
         const jwtPayload = { user: { id: user.id, role: user.role } };
-        jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, token) => {
-            if (err) throw err;
-            // envoyer le token dans un cookie HttpOnly sécurisé
-            res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 24 * 60 * 60 * 1000 // 24h
-            }).json({ msg: 'Connecté avec succès', role: user.role });
-        });
+        const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000, // 24h
+            sameSite: 'Strict'
+        }).json({ msg: 'Connecté avec succès', role: user.role });
 
     } catch (error) {
         console.error("Erreur Google Auth:", error);
@@ -224,7 +221,8 @@ router.post('/logout', (req, res) => {
     // Supprime le cookie token côté client
     res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production'
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict'
     });
     return res.json({ msg: 'Déconnexion réussie' });
 });
@@ -247,7 +245,8 @@ router.get('/verify', (req, res) => {
     } catch (err) {
         res.clearCookie('token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production'
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict'
         });
         return res.status(401).json({ msg: 'Token invalide' });
     }
