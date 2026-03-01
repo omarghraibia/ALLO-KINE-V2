@@ -120,59 +120,33 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            // 1. VÉRIFIER L'ACCÈS PATIENT
             try {
                 const response = await fetch('/api/auth/verify', { credentials: 'include' });
                 const data = await response.json();
-                
                 if (!response.ok || data.role !== 'patient') {
                     window.location.href = '/login.html';
                     return;
                 }
-            } catch (err) {
-                window.location.href = '/login.html';
-                return;
-            }
-
-            // 2. CHARGER L'HISTORIQUE
+            } catch (err) { window.location.href = '/login.html'; }
+        
             const historyBox = document.getElementById('patient-history');
-            
             try {
-                const res = await fetch('/api/appointments', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include'
-                });
-
+                const res = await fetch('/api/appointments', { credentials: 'include' });
                 if (res.ok) {
                     const appointments = await res.json();
-                    
-                    if (!appointments || appointments.length === 0) {
-                        historyBox.innerHTML = '<p>📋 Vous n\'avez pas encore de rendez-vous enregistré.</p>';
+                    if (appointments.length === 0) {
+                        historyBox.innerHTML = '<p>📋 Aucun rendez-vous enregistré.</p>';
                     } else {
-                        let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
-                        appointments.forEach(app => {
-                            const date = new Date(app.createdAt).toLocaleDateString('fr-FR');
-                            const statusLabel = app.statut === 'en_attente' ? '⏳ En attente' : '✅ Validé';
-                            const color = app.statut === 'en_attente' ? '#f39c12' : '#27ae60';
-                            
-                            html += `
-                                <div class="appointment-item">
-                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                        <strong>${date} - ${app.motif}</strong>
-                                        <span style="color:${color}; font-weight:bold; font-size:0.85rem;">${statusLabel}</span>
-                                    </div>
-                                    <p style="margin-top:8px; font-size:0.9rem; opacity:0.8;">Note du praticien : ${app.diagnostic || 'Dossier en cours d\\'analyse'}</p>
-                                </div>
-                            `;
-                        });
-                        html += '</div>';
+                        let html = appointments.map(app => `
+                            <div class="appointment-item">
+                                <strong>${new Date(app.createdAt).toLocaleDateString('fr-FR')} - ${app.motif}</strong>
+                                <p>Note : ${app.diagnostic || 'En attente d\\'analyse'}</p>
+                            </div>
+                        `).join('');
                         historyBox.innerHTML = html;
                     }
                 }
-            } catch (error) {
-                historyBox.innerHTML = '<p style="color:#ff4757;">Impossible de charger l\'historique.</p>';
-            }
+            } catch (error) { historyBox.innerHTML = '<p>Erreur de chargement.</p>'; }
         });
     </script>
 </body>
