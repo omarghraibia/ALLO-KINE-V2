@@ -250,19 +250,18 @@ header.pro-header {
    ADAPTATION MOBILE
    ========================================================================== */
 @media (max-width: 768px) {
-    header.pro-header { padding: 1rem 5%; }
-    
-    .menu-toggle { display: block; cursor: pointer; color: white; font-size: 1.5rem; }
-
-    #nav-list { 
-        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; 
-        background: var(--nav-bg); flex-direction: column; justify-content: center; 
-        transition: 0.4s ease-in-out; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    header.pro-header { 
+        padding: 1rem 5%; 
     }
-    #nav-list.active { right: 0; }
-    #nav-list li { margin: 20px 0; }
+    
+    .menu-toggle { 
+        display: block !important; 
+        cursor: pointer; 
+        font-size: 1.8rem; 
+        color: var(--gold-accent);
+        z-index: 2001; 
+    }
 
-   @media (max-width: 768px) {
     #nav-list { 
         position: fixed; 
         top: 0; 
@@ -284,14 +283,10 @@ header.pro-header {
         right: 0; /* Glisse vers l'intérieur */
     }
 
-    .menu-toggle { 
-        display: block !important; 
-        z-index: 2001; 
-        cursor: pointer;
-        font-size: 1.8rem;
-        color: var(--gold-accent);
+    #nav-list li { 
+        margin: 20px 0; 
     }
-    
+
     /* Overlay pour cliquer à côté et fermer */
     body.menu-open::after {
         content: '';
@@ -301,10 +296,10 @@ header.pro-header {
         backdrop-filter: blur(4px);
         z-index: 1998;
     }
-}
 
+    /* Ajustements de taille pour petits écrans */
     .hero h1 { font-size: 2.2rem; }
     .pricing-card.premium-card { transform: scale(1); }
     .footer-container { gap: 30px; text-align: center; }
-
 }
+
