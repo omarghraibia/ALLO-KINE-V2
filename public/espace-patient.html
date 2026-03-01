@@ -134,7 +134,7 @@
                         let html = appointments.map(app => `
                             <div class="appointment-item">
                                 <strong>${new Date(app.createdAt).toLocaleDateString('fr-FR')} - ${app.motif}</strong>
-                                <p>Note : ${app.diagnostic || 'En attente d\\'analyse'}</p>
+                                <p>Note : ${app.diagnostic || "En attente d'analyse"}</p>
                             </div>
                         `).join('');
                         historyBox.innerHTML = html;
