@@ -26,10 +26,17 @@ if (!fs.existsSync(uploadDir)){
 
 // --- 🛡️ MIDDLEWARES DE SÉCURITÉ ---
 app.use(helmet({
-  contentSecurityPolicy: false // Permet l'affichage du CSS et des images sans blocage
+  contentSecurityPolicy: false // Permet l'affichage du CSS et des scripts externes (Google, PayPal)
 }));
-app.use(cors());
-app.use(express.json({ limit: '10kb' })); 
+
+// Autoriser les cookies via CORS
+app.use(cors({
+    origin: true, // Autorise l'origine de la requête
+    credentials: true // INDISPENSABLE pour que les cookies httpOnly passent
+}));
+
+// CORRECTION : Limite augmentée à 2mb pour permettre les longs articles de blog
+app.use(express.json({ limit: '2mb' })); 
 app.use(cookieParser());
 
 // Protection contre le spam de requêtes sur l'API
@@ -41,22 +48,33 @@ mongoose.connect(mongoUri)
   .then(() => console.log('Base de données connectée ! 🛡️'))
   .catch(err => console.error('Erreur de connexion MongoDB :', err));
 
-// ---  ROUTES DE L'API ---;
+// --- 🚀 ROUTES DE L'API ---
 app.use('/api/appointments', require('./src/routes/appointments'));
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/articles', require('./src/routes/articles'));
 
 // --- 🎨 AFFICHER LE VISUEL DU SITE WEB (FRONTEND) ---
-// On indique que tous les fichiers HTML/CSS/JS sont désormais dans le dossier 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+// CORRECTION : Active la recherche des fichiers .html automatiquement (ex: /cabinet chargera /cabinet.html)
+app.use(express.static(path.join(__dirname, 'public'), {
+    extensions: ['html']
+}));
 
-// Si la requête ne concerne pas l'API, on renvoie l'index.html du dossier public
-app.get(/^(?!\/api).+/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// CORRECTION ARCHITECTURE : Gestion des erreurs 404 (Page non trouvée)
+// Si l'utilisateur tape une URL qui n'existe ni dans le dossier public, ni dans l'API :
+app.use((req, res, next) => {
+    if (req.originalUrl.startsWith('/api')) {
+        // Si c'est une fausse route API, renvoyer une erreur JSON 404
+        res.status(404).json({ msg: 'Route API introuvable' });
+    } else {
+        // Si c'est une fausse page du site, rediriger proprement vers l'accueil
+        res.redirect('/');
+        // Note: Tu pourrais aussi créer une page '404.html' dans 'public' et faire :
+        // res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+    }
 });
 
 // --- ⚙️ LANCEMENT DU SERVEUR ---
-// Railway et Render utilisent la variable d'environnement PORT
+// Railway et Zeabur utilisent la variable d'environnement PORT
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Serveur ALLO KINÉ actif sur le port ${PORT}`);
