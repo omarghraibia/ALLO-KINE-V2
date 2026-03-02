@@ -83,7 +83,8 @@ async function handleLogin(email, password) {
         });
         const data = await res.json();
         if (res.ok) {
-            localStorage.setItem('token', data.token);
+            // CORRECTION : On ne stocke PLUS le token ! On stocke juste un marqueur et le rôle
+            localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('role', data.role);
             window.location.href = (data.role === 'kine' || data.role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
         } else {
@@ -91,4 +92,5 @@ async function handleLogin(email, password) {
         }
     } catch (err) { console.error(err); }
 }
+
 
