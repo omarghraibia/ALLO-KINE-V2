@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. NAVBAR DYNAMIQUE (AUTH) ---
+   // --- 3. NAVBAR DYNAMIQUE (AUTH) ---
     const authNavItem = document.getElementById('auth-nav-item');
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -57,13 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
             <a href="${url}" class="nav-btn-gold">Mon Espace</a>
             <a href="#" id="logout-btn" class="nav-link-logout">Déconnexion</a>
         `;
-        document.getElementById('logout-btn').addEventListener('click', (e) => {
+        
+        // CORRECTION ICI : Appel au backend pour tuer le cookie
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
             e.preventDefault();
+            try {
+                // On appelle la route logout pour effacer le cookie httpOnly
+                await fetch('/api/auth/logout', { method: 'POST' });
+            } catch (err) {
+                console.error("Erreur lors de la déconnexion serveur", err);
+            }
+            // On nettoie le navigateur et on redirige
             localStorage.clear();
             window.location.href = '/login.html';
         });
     }
-});
 
 // --- FONCTIONS GLOBALES (Login / Articles) ---
 async function handleLogin(email, password) {
@@ -83,3 +91,4 @@ async function handleLogin(email, password) {
         }
     } catch (err) { console.error(err); }
 }
+
