@@ -46,22 +46,17 @@ function verifyRecaptchaToken(token) {
 
 // --- 📝 INSCRIPTION CLASSIQUE ---
 router.post('/register', [
-    // RÈGLES DE VALIDATION
     check('nom', 'Le nom est requis').not().isEmpty(),
     check('prenom', 'Le prénom est requis').not().isEmpty(),
     check('email', 'Veuillez inclure un email valide').isEmail(),
     check('telephone', 'Le téléphone est requis').not().isEmpty(),
     check('password', 'Veuillez entrer un mot de passe avec 6 caractères minimum').isLength({ min: 6 })
 ], async (req, res) => {
-    // VÉRIFICATION DES ERREURS
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
     const { nom, prenom, telephone, email, password, recaptchaToken } = req.body;
     try {
-        // vérifier reCAPTCHA si fourni
         if (recaptchaToken) {
             const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
             if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
@@ -77,18 +72,18 @@ router.post('/register', [
         const payload = { user: { id: user.id, role: user.role } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
+        // CORRECTION SÉCURITÉ : On envoie UNIQUEMENT le cookie, plus le token dans le JSON
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 24 * 60 * 60 * 1000, // 24h en millisecondes
-            sameSite: 'Strict' // Protection CSRF
-        }).json({ token, msg: 'Inscription réussie', role: user.role });
+            maxAge: 24 * 60 * 60 * 1000, 
+            sameSite: 'Strict'
+        }).json({ msg: 'Inscription réussie', role: user.role });
     } catch (err) {
         res.status(500).send('Erreur serveur');
     }
 });
 
-// --- 🔐 CONNEXION CLASSIQUE ---
 // --- ✉️ MOT DE PASSE OUBLIÉ ---
 router.post('/forgot', async (req, res) => {
     const { email, recaptchaToken } = req.body;
@@ -103,13 +98,10 @@ router.post('/forgot', async (req, res) => {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000; // 1h
             await user.save();
-            // ici on enverrait un email, pour l'instant on logge
-            console.log(`Réinitialisation mot de passe : http://localhost:5000/reset.html?token=${token}`);
+            console.log(`Réinitialisation mot de passe : http://localhost:5000/reset.html?token=${token}`);
         }
-        // ne pas indiquer si l'adresse existe ou non
         res.json({ msg: "Si l'email est enregistré, un lien de réinitialisation a été envoyé." });
     } catch (err) {
-        console.error(err);
         res.status(500).send('Erreur serveur');
     }
 });
@@ -134,17 +126,14 @@ router.post('/reset', async (req, res) => {
         await user.save();
         res.json({ msg: 'Mot de passe mis à jour avec succès' });
     } catch (err) {
-        console.error(err);
         res.status(500).send('Erreur serveur');
     }
 });
-
 
 // --- 🔐 CONNEXION CLASSIQUE ---
 router.post('/login', async (req, res) => {
     const { email, password, recaptchaToken } = req.body;
     try {
-        // Vérification reCAPTCHA facultative
         if (recaptchaToken) {
             const recaptchaOk = await verifyRecaptchaToken(recaptchaToken);
             if (!recaptchaOk) return res.status(400).json({ msg: 'reCAPTCHA invalide' });
@@ -159,12 +148,13 @@ router.post('/login', async (req, res) => {
         const payload = { user: { id: user.id, role: user.role } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
+        // CORRECTION SÉCURITÉ : On envoie UNIQUEMENT le cookie
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 24 * 60 * 60 * 1000, // 24h
+            maxAge: 24 * 60 * 60 * 1000,
             sameSite: 'Strict'
-        }).json({ token, msg: 'Connecté avec succès', role: user.role });
+        }).json({ msg: 'Connecté avec succès', role: user.role });
     } catch (err) {
         res.status(500).json({ msg: 'Erreur serveur' });
     }
@@ -185,14 +175,13 @@ router.post('/google', async (req, res) => {
 
         let user = await User.findOne({ email });
         
-        // Si l'utilisateur Google n'existe pas encore, on crée son compte en sécurisant le mot de passe
         if (!user) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(sub, salt);
             user = new User({
                 nom: family_name || 'Inconnu',
                 prenom: given_name || 'Inconnu',
-                telephone: '', // Pas de téléphone via Google
+                telephone: '', 
                 email: email,
                 password: hashedPassword,
                 role: 'patient'
@@ -200,26 +189,24 @@ router.post('/google', async (req, res) => {
             await user.save();
         }
 
-        // Création du passe-partout (Token)
         const jwtPayload = { user: { id: user.id, role: user.role } };
-        const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const jwtToken = jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-        res.cookie('token', token, {
+        // CORRECTION SÉCURITÉ : On envoie UNIQUEMENT le cookie
+        res.cookie('token', jwtToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 24 * 60 * 60 * 1000, // 24h
+            maxAge: 24 * 60 * 60 * 1000,
             sameSite: 'Strict'
-        }).json({ token, msg: 'Connecté avec succès', role: user.role });
+        }).json({ msg: 'Connecté avec succès', role: user.role });
 
     } catch (error) {
-        console.error("Erreur Google Auth:", error);
         res.status(401).json({ msg: 'Authentification Google échouée' });
     }
 });
 
 // --- 🚪 DÉCONNEXION ---
 router.post('/logout', (req, res) => {
-    // Supprime le cookie token côté client
     res.clearCookie('token', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -232,9 +219,7 @@ router.post('/logout', (req, res) => {
 router.get('/verify', (req, res) => {
     const token = req.cookies && req.cookies.token;
     
-    if (!token) {
-        return res.status(401).json({ msg: 'Non authentifié' });
-    }
+    if (!token) return res.status(401).json({ msg: 'Non authentifié' });
     
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
