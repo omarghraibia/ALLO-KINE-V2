@@ -48,21 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
    // --- 3. NAVBAR DYNAMIQUE (AUTH) ---
     const authNavItem = document.getElementById('auth-nav-item');
-    const token = localStorage.getItem('token');
+    // CORRECTION : On vérifie 'isLoggedIn' au lieu de 'token'
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
     const role = localStorage.getItem('role');
 
-    if (token && role && authNavItem) {
+    if (isLoggedIn && role && authNavItem) {
         const url = (role === 'kine' || role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
         authNavItem.innerHTML = `
             <a href="${url}" class="nav-btn-gold">Mon Espace</a>
             <a href="#" id="logout-btn" class="nav-link-logout">Déconnexion</a>
         `;
         
-        // CORRECTION ICI : Appel au backend pour tuer le cookie
+        // Appel au backend pour tuer le cookie
         document.getElementById('logout-btn').addEventListener('click', async (e) => {
             e.preventDefault();
             try {
-                // On appelle la route logout pour effacer le cookie httpOnly
                 await fetch('/api/auth/logout', { method: 'POST' });
             } catch (err) {
                 console.error("Erreur lors de la déconnexion serveur", err);
@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/login.html';
         });
     }
+}); // <-- CORRECTION : La fermeture manquante était ici !
 
 // --- FONCTIONS GLOBALES (Login / Articles) ---
 async function handleLogin(email, password) {
@@ -82,15 +83,17 @@ async function handleLogin(email, password) {
             body: JSON.stringify({ email, password })
         });
         const data = await res.json();
+        
         if (res.ok) {
-            // CORRECTION : On ne stocke PLUS le token ! On stocke juste un marqueur et le rôle
+            // On ne stocke PLUS le token ! On stocke juste un marqueur et le rôle
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('role', data.role);
             window.location.href = (data.role === 'kine' || data.role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
         } else {
-            alert(data.message || "Erreur de connexion");
+            // Utilisation de data.msg (car le backend renvoie "msg" et non "message")
+            alert(data.msg || "Erreur de connexion");
         }
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+        console.error(err); 
+    }
 }
-
-
