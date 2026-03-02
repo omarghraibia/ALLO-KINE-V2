@@ -88,7 +88,7 @@
             </form>
 
             <div class="auth-links">
-                <a href="/forgot-password.html">Mot de passe oublié ?</a>
+                <a href="/forgot.html">Mot de passe oublié ?</a>
                 <a href="/register.html">Nouveau patient ? Créer un compte</a>
             </div>
         </div>
@@ -123,14 +123,14 @@
             }
         });
 
-        // Redirection si déjà connecté
+        // CORRECTION SÉCURITÉ : Redirection si déjà connecté
         window.addEventListener('load', () => {
-            if (localStorage.getItem('token')) {
+            // On vérifie 'isLoggedIn' au lieu de 'token'
+            if (localStorage.getItem('isLoggedIn') === 'true') {
                 const role = localStorage.getItem('role');
                 window.location.href = (role === 'kine' || role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
             }
         });
     </script>
 </body>
-
 </html>
