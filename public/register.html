@@ -54,21 +54,21 @@
 <body>
 
     <header class="pro-header">
-    <a href="/" class="logo-link">
-        <img src="/logo.png" alt="Logo" style="width: 55px; border-radius: 50%;">
-        <span class="brand-name">ALLO KINÉ</span>
-    </a>
-    <div class="menu-toggle" id="mobile-menu">☰</div>
-    <nav>
-        <ul id="nav-list">
-            <li><a href="/">Accueil</a></li>
-            <li><a href="/cabinet.html">Le Cabinet</a></li>
-            <li><a href="/competences.html">Soins & Tarifs</a></li>
-            <li><a href="/contact.html">Contact</a></li>
-            <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
-            <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
-        </ul>
-    </nav>
+        <a href="/" class="logo-link">
+            <img src="/logo.png" alt="Logo" style="width: 55px; border-radius: 50%;">
+            <span class="brand-name">ALLO KINÉ</span>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">☰</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/cabinet.html">Le Cabinet</a></li>
+                <li><a href="/competences.html">Soins & Tarifs</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li id="auth-nav-item"><a href="/login.html" class="nav-btn-gold">Espace Client</a></li>
+                <li><button id="theme-toggle" class="theme-btn">🌙</button></li>
+            </ul>
+        </nav>
     </header>
 
     <main class="register-container">
@@ -134,10 +134,16 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    alert("Inscription réussie ! Vous allez être redirigé vers la page de connexion.");
-                    window.location.href = '/login.html';
+                    // CORRECTION SÉCURITÉ : On stocke l'état de connexion et le rôle, comme pour le login
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('role', data.role);
+                    
+                    alert("Inscription réussie ! Bienvenue sur votre espace.");
+                    // Redirection directe vers l'espace patient (plus besoin de se reconnecter)
+                    window.location.href = '/espace-patient.html';
                 } else {
-                    alert("Erreur : " + (data.message || "Impossible de créer le compte."));
+                    // CORRECTION : utilisation de data.msg au lieu de data.message
+                    alert("Erreur : " + (data.msg || "Impossible de créer le compte."));
                 }
             } catch (error) {
                 console.error("Erreur inscription:", error);
@@ -145,13 +151,14 @@
             }
         });
 
-        // Rediriger si déjà connecté
-        window.onload = () => {
-            if (localStorage.getItem('token')) {
+        // CORRECTION SÉCURITÉ : Rediriger si déjà connecté
+        window.addEventListener('load', () => {
+            // On vérifie le booléen 'isLoggedIn' au lieu du 'token'
+            if (localStorage.getItem('isLoggedIn') === 'true') {
                 const role = localStorage.getItem('role');
                 window.location.href = (role === 'kine' || role === 'admin') ? '/dashboard.html' : '/espace-patient.html';
             }
-        };
+        });
     </script>
 </body>
 </html>
